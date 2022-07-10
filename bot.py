@@ -49,7 +49,7 @@ def myInfo(msg):
 def greetingGenerator(msg):
     first_name = msg['chat']['first_name']
 
-    options = {
+    options = [
         "Sry but i got no 'Hi' left over for you.",
         "Hello there " + first_name + "!",
         "There we go again... \nHi stranger!",
@@ -58,7 +58,7 @@ def greetingGenerator(msg):
         "What’s up! Buddy?",
         "Sup?",
         "Wazzup! Dude?",
-    }
+    ]
 
     return options[random.randint(0,len(options) - 1)]
 
