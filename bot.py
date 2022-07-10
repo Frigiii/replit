@@ -28,7 +28,7 @@ def handle(msg):
     elif command == '/time':
         bot.sendMessage(chat_id, str(datetime.datetime.now()))
     elif command == '/hello':
-        bot.sendMessage("Hello there %s" % (first_name))
+        bot.sendMessage(chat_id, "Hello there %s" % (first_name))
 
 bot = telepot.Bot('5457885103:AAGxW8IXcX-VtAKbWQgxh_vKKZu5_-J0UP4')
 
