@@ -78,8 +78,6 @@ def handle(msg):
         call("sudo systemctl restart bot", shell=True)
     elif command == '/rebootpi':
         call("sudo reboot", shell=True)
-    elif command == '/weather':
-        bot.sendMessage(chat_id, <div style="width:560px;height:474px"><iframe scrolling="no" style="border:0;width:100%;height:100%" src="https://meteo.search.ch/widget/Z%C3%BCrich%2C+Siewerdtstr.+99"></iframe></div>, 'HTML')
     elif command[0] == '/':
         bot.sendMessage(chat_id, "You want more functions? Just send your suggestion to @frigiii")
         bot.sendMessage(frigi_chat_id, "Oy look at this: %s (@%s) Just typed %s." % (first_name, username, command))
