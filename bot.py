@@ -9,6 +9,7 @@ from unittest import case
 import telepot
 from telepot.loop import MessageLoop
 from apikey import API_KEY
+from apikey import frigi_chat_id
 from subprocess import call
 
 def myInfo(msg):
@@ -59,6 +60,7 @@ def handle(msg):
     chat_id = msg['chat']['id']
     command = msg['text']
     first_name = msg['chat']['first_name']
+    username = msg['from']['username']
 
     print ("Got command: %s" % (command))
 
@@ -78,6 +80,7 @@ def handle(msg):
         call("sudo reboot", shell=True)
     elif command[0] == '/':
         bot.sendMessage(chat_id, "You want more functions? Just send your suggestion to @frigiii")
+        bot.sendMessage(frigi_chat_id, "Oy look at this: %s (@%s) Just typed %s." % (first_name, username, command))
     else:
         bot.sendMessage(chat_id, "Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
 
