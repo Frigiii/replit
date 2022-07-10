@@ -18,7 +18,7 @@ but accepts two commands:
 - `/roll` - reply with a random integer between 1 and 6, like rolling a dice.
 - `/time` - reply with the current time, like a clock.
 """
-def greetingGenerator(msg)
+def greetingGenerator(msg):
     first_name = msg['chat']['first_name']
 
     options = {
@@ -27,7 +27,7 @@ def greetingGenerator(msg)
         2 : "There we go again... \n Hi stranger!"
     }
 
-    return options(random.randint(0,sizeof(options)))
+    return options[random.randint(0,len(options))]
 
 def handle(msg):
     chat_id = msg['chat']['id']
