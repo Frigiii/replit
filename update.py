@@ -11,7 +11,10 @@ from telepot.loop import MessageLoop
 from apikey import API_KEY
 import subprocess
 
+call("sudo /home/frigi/raspberrypi4/rebootpi.sh", shell=True)
 
+
+"""
 p = subprocess.Popen("cd /home/frigi/raspberrypi4", shell= True)
 
 p.communicate("sudo systemctl stop bot.service")
@@ -22,7 +25,6 @@ p.communicate("sudo systemctl start bot.service")
 p.kill()
 
 
-"""
 Versuch 19:51
 
 
