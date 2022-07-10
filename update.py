@@ -12,17 +12,18 @@ from apikey import API_KEY
 import subprocess
 
 
-p = subprocess.Popen("/home/frigi/raspberrypi4", shell= True)
+p = subprocess.Popen("cd /home/frigi/raspberrypi4", shell= True)
 
 p.communicate("sudo systemctl stop bot.service")
 time.sleep(1)
 p.communicate("git pull")
 time.sleep(5)
 p.communicate("sudo systemctl start bot.service")
-p.kill
+p.kill()
 
 
 """
+Versuch 19:50
 
 call("sudo systemctl stop bot.service", shell=True)
 time.sleep(1)
