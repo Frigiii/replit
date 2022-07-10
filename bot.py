@@ -20,7 +20,8 @@ but accepts two commands:
 - `/time` - reply with the current time, like a clock.
 """
 def myInfo(msg):
-    first_name = msg['user']['first_name']
+    first_name = msg['chat']['first_name']
+    print(msg)
 
     return first_name
 
