@@ -22,12 +22,12 @@ def greetingGenerator(msg):
     first_name = msg['chat']['first_name']
 
     options = {
-        0 : "Sry but i got no 'Hi' left over for you.",
-        1 : "Hello there " + first_name + "!",
-        2 : "There we go again... \nHi stranger!"
+        1 : "Sry but i got no 'Hi' left over for you.",
+        2 : "Hello there " + first_name + "!",
+        3 : "There we go again... \nHi stranger!"
     }
 
-    return options[random.randint(0,len(options))]
+    return options[random.randint(1,len(options))]
 
 def handle(msg):
     chat_id = msg['chat']['id']
