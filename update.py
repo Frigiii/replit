@@ -25,7 +25,7 @@ p.communicate("sudo systemctl start bot.service")
 p.kill()
 
 
-Versuch 19:51
+Versuch 19:52
 
 
 call("sudo systemctl stop bot.service", shell=True)
