@@ -70,7 +70,7 @@ def handle(msg):
         bot.sendMessage(chat_id, str(datetime.datetime.now()))
     elif command == '/hello':
         bot.sendMessage(chat_id, greetingGenerator(msg))
-    elif command == '/myInfo':
+    elif command == '/myinfo':
         bot.sendMessage(chat_id, myInfo(msg))
 
 bot = telepot.Bot('5457885103:AAGxW8IXcX-VtAKbWQgxh_vKKZu5_-J0UP4')
