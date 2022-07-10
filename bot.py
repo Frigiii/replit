@@ -1,6 +1,8 @@
+from nis import match
 import time
 import random
 import datetime
+from unittest import case
 import telepot
 from telepot.loop import MessageLoop
 
@@ -28,7 +30,14 @@ def handle(msg):
     elif command == '/time':
         bot.sendMessage(chat_id, str(datetime.datetime.now()))
     elif command == '/hello':
-        bot.sendMessage(chat_id, "Hello there %s!" % (first_name))
+        message = "Sorry for being so rude, but you won't get a hi from me today."
+        match (random.randint(1,3)):
+            case 1:
+                message = "Hello there %s!" % (first_name)
+            case 2:
+                message = "Wassup?"
+                
+        bot.sendMessage(chat_id, message)
 
 bot = telepot.Bot('5457885103:AAGxW8IXcX-VtAKbWQgxh_vKKZu5_-J0UP4')
 
