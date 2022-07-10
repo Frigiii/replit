@@ -9,10 +9,10 @@ from unittest import case
 import telepot
 from telepot.loop import MessageLoop
 from apikey import API_KEY
-import subprocess
 from subprocess import call
 
-call("/home/frigi/raspberrypi4/update.sh", shell=True)
+call("sudo systemctl stop bot", shell=True)
+call("sudo systemctl stop bot", shell=True)
 
 
 """
