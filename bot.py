@@ -71,7 +71,7 @@ def handle(msg):
     elif command == '/myinfo':
         bot.sendMessage(chat_id, myInfo(msg))
     elif command == '/update':
-        os.system('python /home/frigi/raspberrypi4/update.py')
+        call("python /home/frigi/raspberrypi4/update.py", shell=True)
     elif command == '/rebootpi':
         call("sudo reboot", shell=True)
 
