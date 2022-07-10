@@ -69,11 +69,6 @@ def handle(msg):
         bot.sendMessage(chat_id, greetingGenerator(msg))
     elif command == '/myinfo':
         bot.sendMessage(chat_id, myInfo(msg))
-    elif command == '/update':
-        os.system('python /home/frigi/raspberrypi4/update.py')
-    elif command == '/rebootpi':
-        os.system('sudo /home/username/rebootpi.sh')
-
 
 bot = telepot.Bot(API_KEY)
 
