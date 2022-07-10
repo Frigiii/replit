@@ -23,8 +23,8 @@ def greetingGenerator(msg):
 
     options = {
         0 : "Sry but i got no 'Hi' left over for you.",
-        1 : "Hello there" + first_name + "!",
-        2 : "There we go again... \n Hi stranger!"
+        1 : "Hello there " + first_name + "!",
+        2 : "There we go again... \nHi stranger!"
     }
 
     return options[random.randint(0,len(options))]
