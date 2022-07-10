@@ -71,7 +71,7 @@ def handle(msg):
     elif command == '/myinfo':
         bot.sendMessage(chat_id, myInfo(msg))
     elif command == '/update':
-        call("python /home/frigi/raspberrypi4/update.py", shell=True)
+        call("git -C /home/frigi/raspberrypi4 pull", shell=True)
     elif command == '/rebootpi':
         call("sudo reboot", shell=True)
 
@@ -83,3 +83,5 @@ print ("I am listening ...")
 
 while 1:
     time.sleep(10)
+
+""""""
