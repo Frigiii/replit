@@ -43,7 +43,7 @@ def myInfo(msg):
         ".\n - Your first name is " + first_name + ", your username " + username +
         ".\n - The language code of our chat is: " + language_code +
         ".\n - The chat type is set to: " + chat_type +
-        ".\n - The date code for your message is: " + message_date +
+        ".\n - The date code for your message is: " + str(message_date) +
         ".\n - The message text is: \"" + text + "\"."        
         )
 def greetingGenerator(msg):
