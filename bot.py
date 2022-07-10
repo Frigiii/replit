@@ -1,3 +1,4 @@
+from ctypes import sizeof
 from nis import match
 import time
 import random
@@ -17,6 +18,16 @@ but accepts two commands:
 - `/roll` - reply with a random integer between 1 and 6, like rolling a dice.
 - `/time` - reply with the current time, like a clock.
 """
+def greetingGenerator(msg)
+    first_name = msg['chat']['first_name']
+
+    options = {
+        0 : "Sry but i got no 'Hi' left over for you.",
+        1 : "Hello there" + first_name + "!",
+        2 : "There we go again... \n Hi stranger!"
+    }
+
+    return options(random.randint(0,sizeof(options)))
 
 def handle(msg):
     chat_id = msg['chat']['id']
@@ -30,14 +41,7 @@ def handle(msg):
     elif command == '/time':
         bot.sendMessage(chat_id, str(datetime.datetime.now()))
     elif command == '/hello':
-        message = "Sorry for being so rude, but you won't get a hi from me today."
-        match (random.randint(1,3)):
-            case 1:
-                message = "Hello there %s!" % (first_name)
-            case 2:
-                message = "Wassup?"
-                
-        bot.sendMessage(chat_id, message)
+        bot.sendMessage(chat_id, greetingGenerator(msg))
 
 bot = telepot.Bot('5457885103:AAGxW8IXcX-VtAKbWQgxh_vKKZu5_-J0UP4')
 
