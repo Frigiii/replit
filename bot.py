@@ -1,5 +1,6 @@
 from ctypes import sizeof
 from nis import match
+import re
 import time
 import random
 import datetime
@@ -18,6 +19,11 @@ but accepts two commands:
 - `/roll` - reply with a random integer between 1 and 6, like rolling a dice.
 - `/time` - reply with the current time, like a clock.
 """
+def myInfo(msg):
+    first_name = msg['user']['first_name']
+
+    return first_name
+
 def greetingGenerator(msg):
     first_name = msg['chat']['first_name']
 
@@ -42,6 +48,8 @@ def handle(msg):
         bot.sendMessage(chat_id, str(datetime.datetime.now()))
     elif command == '/hello':
         bot.sendMessage(chat_id, greetingGenerator(msg))
+    elif command == '/myInfo':
+        bot.sendMessage(chat_id, myInfo(msg))
 
 bot = telepot.Bot('5457885103:AAGxW8IXcX-VtAKbWQgxh_vKKZu5_-J0UP4')
 
