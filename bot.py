@@ -37,8 +37,14 @@ def myInfo(msg):
     message_date = msg['date']
     text = msg['text']
 
-    return("Here's, what informations I received with your message:\n - The message id is" + str(message_id) +
-        "\n - Our chat id is " + str(chat_id) + ", you're " + ("a" if is_bot else "no") + " bot."
+    return("Here's, what informations I received with your message:\n - The message id is " + str(message_id) +
+        ".\n - Our chat id is " + str(chat_id) +
+        ".\n - You're " + ("a" if is_bot else "no") + " bot"
+        ".\n - Your first name is " + first_name + ", your username " + username +
+        ".\n - The language code of our chat is: " + language_code +
+        ".\n - The chat type is set to: " + chat_type +
+        ".\n - The date code for your message is: " + message_date +
+        ".\n - The message text is: \"" + text + "\"."        
         )
 def greetingGenerator(msg):
     first_name = msg['chat']['first_name']
