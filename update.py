@@ -12,7 +12,7 @@ from apikey import API_KEY
 import subprocess
 from subprocess import call
 
-call("sudo /home/frigi/raspberrypi4/rebootpi.sh", shell=True)
+call("sudo /home/frigi/raspberrypi4/update.sh", shell=True)
 
 
 """
