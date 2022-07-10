@@ -12,7 +12,7 @@ from apikey import API_KEY
 from subprocess import call
 
 call("sudo systemctl stop bot", shell=True)
-call("sudo systemctl stop bot", shell=True)
+call("sudo systemctl start bot", shell=True)
 
 
 """

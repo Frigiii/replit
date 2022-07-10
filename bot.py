@@ -73,7 +73,7 @@ def handle(msg):
     elif command == '/update':
         bot.sendMessage(chat_id, "Gimme a second.")
         call("git -C /home/frigi/raspberrypi4 pull", shell=True)
-        call("python /home/frigi/fast_reboot.py", shell=True)
+       
     elif command == '/rebootpi':
         call("sudo reboot", shell=True)
 
