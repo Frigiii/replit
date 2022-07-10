@@ -23,7 +23,8 @@ p.kill()
 
 
 """
-Versuch 19:50
+Versuch 19:51
+
 
 call("sudo systemctl stop bot.service", shell=True)
 time.sleep(1)
