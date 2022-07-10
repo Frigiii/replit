@@ -65,7 +65,7 @@ def handle(msg):
     if command == '/roll':
         bot.sendMessage(chat_id, random.randint(1,6))
     elif command == '/time':
-        bot.sendMessage(chat_id, time.strftime("%A, %d.%m.%y, %H:%M:%S", time.localtime()))
+        bot.sendMessage(chat_id, time.strftime("%a, %d.%m.%y, %H:%M:%S", time.localtime()))
     elif command == '/hello':
         bot.sendMessage(chat_id, greetingGenerator(msg))
     elif command == '/myinfo':
@@ -85,5 +85,3 @@ print ("I am listening ...")
 
 while 1:
     time.sleep(10)
-
-"""dis working"""
