@@ -76,7 +76,7 @@ def handle(msg):
         call("sudo systemctl restart bot", shell=True)
     elif command == '/rebootpi':
         call("sudo reboot", shell=True)
-    else:
+    elif command[0] == '/':
         bot.sendMessage(chat_id, "Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
 
 
