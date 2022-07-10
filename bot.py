@@ -9,6 +9,7 @@ from unittest import case
 import telepot
 from telepot.loop import MessageLoop
 from apikey import API_KEY
+from subprocess import call
 
 def myInfo(msg):
     message_id = msg['message_id']
@@ -72,7 +73,7 @@ def handle(msg):
     elif command == '/update':
         os.system('python /home/frigi/raspberrypi4/update.py')
     elif command == '/rebootpi':
-        os.system('sudo /home/frigi/raspberrypi4/rebootpi.sh')
+        call("sudo reboot", shell=True)
 
 
 bot = telepot.Bot(API_KEY)
