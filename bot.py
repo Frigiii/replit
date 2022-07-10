@@ -36,9 +36,6 @@ def myInfo(msg):
 
     message_date = msg['date']
     text = msg['text']
-    text_offset = msg['entities']['offset']
-    text_length = msg['entities']['length']
-    text_type = msg['entities']['type']
 
     return("Here's, what informations I received with your message:\n - The message id is" + message_id +
         "\n - Our chat id is " + chat_id + ", you're " + "a" if is_bot else "no" + " bot."
