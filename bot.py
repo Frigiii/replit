@@ -9,17 +9,6 @@ from unittest import case
 import telepot
 from telepot.loop import MessageLoop
 
-"""
-After **inserting token** in the source code, run it:
-```
-$ python2.7 diceyclock.py
-```
-[Here is a tutorial](http://www.instructables.com/id/Set-up-Telegram-Bot-on-Raspberry-Pi/)
-teaching you how to setup a bot on Raspberry Pi. This simple bot does nothing
-but accepts two commands:
-- `/roll` - reply with a random integer between 1 and 6, like rolling a dice.
-- `/time` - reply with the current time, like a clock.
-"""
 def myInfo(msg):
     message_id = msg['message_id']
     """from"""
@@ -50,7 +39,7 @@ def greetingGenerator(msg):
     first_name = msg['chat']['first_name']
 
     options = [
-        "Sry but i got no 'Hi' left over for you.",
+        "Sry but i got no Hi's left over for you.",
         "Hello there " + first_name + "!",
         "There we go again... \nHi stranger!",
         "Howdy! You alright, friend?",
@@ -58,6 +47,8 @@ def greetingGenerator(msg):
         "What’s up! Buddy?",
         "Sup?",
         "Wazzup! Dude?",
+        "Hello! It’s been a pleasure meeting you.",
+        "Hi " + first_name + "!",
     ]
 
     return options[random.randint(0,len(options) - 1)]
