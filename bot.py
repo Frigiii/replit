@@ -72,7 +72,7 @@ def handle(msg):
     elif command == '/update':
         os.system('python /home/frigi/raspberrypi4/update.py')
     elif command == '/rebootpi':
-        os.system('sudo /home/username/rebootpi.sh')
+        os.system('sudo /home/frigi/raspberrypi4/rebootpi.sh')
 
 
 bot = telepot.Bot(API_KEY)
