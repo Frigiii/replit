@@ -19,6 +19,7 @@ but accepts two commands:
 def handle(msg):
     chat_id = msg['chat']['id']
     command = msg['text']
+    name = msg['username']
 
     print ("Got command: %s" % (command))
 
@@ -26,6 +27,8 @@ def handle(msg):
         bot.sendMessage(chat_id, random.randint(1,6))
     elif command == '/time':
         bot.sendMessage(chat_id, str(datetime.datetime.now()))
+    elif command == '/hello':
+        bot.sendMessage('Hello there %s' % (name))
 
 bot = telepot.Bot('5457885103:AAGxW8IXcX-VtAKbWQgxh_vKKZu5_-J0UP4')
 
