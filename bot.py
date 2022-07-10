@@ -1,4 +1,5 @@
 from ctypes import sizeof
+from html import entities
 from nis import match
 import re
 import time
@@ -20,11 +21,28 @@ but accepts two commands:
 - `/time` - reply with the current time, like a clock.
 """
 def myInfo(msg):
-    first_name = msg['chat']['first_name']
-    print(msg)
+    message_id = msg['message_id']
+    """from"""
+    chat_id = msg['from']['id']
+    is_bot = msg['from']['is_bot']
+    first_name = msg['from']['first_name']
+    username = msg['from']['username']
+    language_code = msg['from']['language_code']
+    """chat"""
+    chat_id_2 = msg['chat']['id']
+    first_name_2 = msg['chat']['first_name']
+    username_2 = msg['chat']['username']
+    chat_type = msg['chat']['type']
 
-    return first_name
+    message_date = msg['date']
+    text = msg['text']
+    text_offset = msg['entities']['offset']
+    text_length = msg['entities']['length']
+    text_type = msg['entities']['type']
 
+    return("Here's, what informations I received with your message:\n - The message id is" + message_id +
+        "\n - Our chat id is " + chat_id + ", you're " + "a" if is_bot else "no" + " bot."
+        )
 def greetingGenerator(msg):
     first_name = msg['chat']['first_name']
 
