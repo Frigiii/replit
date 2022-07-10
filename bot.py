@@ -8,6 +8,7 @@ import datetime
 from unittest import case
 import telepot
 from telepot.loop import MessageLoop
+from apikey import API_KEY
 
 def myInfo(msg):
     message_id = msg['message_id']
@@ -69,7 +70,7 @@ def handle(msg):
     elif command == '/myinfo':
         bot.sendMessage(chat_id, myInfo(msg))
 
-bot = telepot.Bot('5457885103:AAGxW8IXcX-VtAKbWQgxh_vKKZu5_-J0UP4')
+bot = telepot.Bot(API_KEY)
 
 MessageLoop(bot, handle).run_as_thread()
 print ("I am listening ...")
