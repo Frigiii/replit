@@ -12,7 +12,7 @@ from apikey import API_KEY
 import subprocess
 from subprocess import call
 
-call("sudo /home/frigi/raspberrypi4/update.sh", shell=True)
+call("/home/frigi/raspberrypi4/update.sh", shell=True)
 
 
 """
@@ -26,7 +26,7 @@ p.communicate("sudo systemctl start bot.service")
 p.kill()
 
 
-Versuch 19:53
+Versuch 19:54
 
 
 call("sudo systemctl stop bot.service", shell=True)
