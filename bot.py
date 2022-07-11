@@ -172,6 +172,11 @@ def main() -> None:
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("roll", roll))
     application.add_handler(CommandHandler("update", update))
+    application.add_handler(CommandHandler("time", teletime))
+    application.add_handler(CommandHandler("hello", hello))
+    application.add_handler(CommandHandler("myinfo", myinfo))
+    application.add_handler(CommandHandler("rebootpi", rebootpi))
+    application.add_handler(CommandHandler("impossible", impossible))
 
     # on non command i.e message - echo the message on Telegram
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
