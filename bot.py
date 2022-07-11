@@ -2,6 +2,7 @@ from ctypes import sizeof
 from html import entities
 from nis import match
 import time
+from turtle import update
 from apikey import API_KEY
 from apikey import frigi_chat_id
 from subprocess import call
@@ -67,10 +68,19 @@ async def echo(bot: Bot, update_id: int) -> int:
         # and not all messages contain text
         if update.message and update.message.text:
             # Reply to the message
-            logger.info("Found message %s!", update.message.text)
-            await update.message.reply_text(update.message.text)
+            text = update.message.text
+            if text = "/roll":
+                await roll(bot, update)
+            else:
+                logger.info("A lonely message occured: %s!", update.message.text)
+                await update.message.reply_text("Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
         return next_update_id
     return update_id
+
+
+async def roll(bot: Bot, update: update) -> None:
+    await bot.message.reply_text(random.randint(1,6))
+
 
 """
 
