@@ -59,7 +59,7 @@ async def teletime(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(time.strftime("%a, %d.%m.%y, %H:%M:%S", time.localtime()))
 
 async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    first_name = update.effective_user
+    first_name = update.effective_user.first_name
 
     options = [
         "Sry but i got no Hi's left over for you.",
