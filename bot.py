@@ -61,9 +61,9 @@ async def echo(bot: Bot, update_id: int) -> int:
     """Echo the message the user sent."""
     # Request updates after the last update_id
     updates = await bot.get_updates(offset=update_id, timeout=10)
+    first = True
     for update in updates:
         next_update_id = update.update_id + 1
-        first = True
         # your bot can receive updates without messages
         # and not all messages contain text
         if update.message and update.message.text:
