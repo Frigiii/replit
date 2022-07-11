@@ -5,6 +5,7 @@ import time
 from apikey import API_KEY
 from apikey import frigi_chat_id
 from subprocess import call
+import random
 
 import logging
 
