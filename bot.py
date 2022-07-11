@@ -55,6 +55,36 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 async def roll(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(random.randint(1,6))
 
+async def teletime(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(time.strftime("%a, %d.%m.%y, %H:%M:%S", time.localtime()))
+
+async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(random.randint(1,6))
+
+async def myinfo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(random.randint(1,6))
+
+async def update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text("Gimme a second.")
+    call("git -C /home/frigi/raspberrypi4 pull", shell=True)
+    call("sudo systemctl restart bot", shell=True)
+    await update.message.reply_text("That didn't work? Or did it?")
+
+async def update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(random.randint(1,6))
+
+async def update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(random.randint(1,6))
+
+async def update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(random.randint(1,6))
+
+async def update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(random.randint(1,6))
+
+async def update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(random.randint(1,6))
+
 
 """
 
@@ -118,15 +148,8 @@ def handle(msg):
         print ("Got command: %s" % (command))
         bot.sendMessage(frigi_chat_id, "Got a chat: %s. From %s (@%s)" % (command, first_name, username))
 
-        if command == '/roll':
-            bot.sendMessage(chat_id, random.randint(1,6))
-        elif command == '/time':
-            bot.sendMessage(chat_id, time.strftime("%a, %d.%m.%y, %H:%M:%S", time.localtime()))
-        elif command == '/hello':
-            bot.sendMessage(chat_id, greetingGenerator(msg))
-        elif command == '/myinfo':
-            bot.sendMessage(chat_id, myInfo(msg))
-        elif command == '/update':
+       
+         elif command == '/update':
             bot.sendMessage(chat_id, "Gimme a second.")
             call("git -C /home/frigi/raspberrypi4 pull", shell=True)
             call("sudo systemctl restart bot", shell=True)
