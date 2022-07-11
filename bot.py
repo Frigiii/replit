@@ -55,7 +55,7 @@ async def roll(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(random.randint(1,6))
 
 
-
+"""
 
     message_id = msg['message_id']
     ""from""
