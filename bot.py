@@ -70,19 +70,19 @@ async def update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     call("sudo systemctl restart bot", shell=True)
     await update.message.reply_text("That didn't work? Or did it?")
 
-async def update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def inv(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(random.randint(1,6))
 
-async def update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def inv(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(random.randint(1,6))
 
-async def update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def inv(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(random.randint(1,6))
 
-async def update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def inv(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(random.randint(1,6))
 
-async def update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def inv(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(random.randint(1,6))
 
 
