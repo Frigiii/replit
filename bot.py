@@ -4,7 +4,6 @@ from nis import match
 import re
 import time
 import random
-import sys
 import datetime
 from unittest import case
 import telepot
@@ -93,10 +92,8 @@ def handle(msg):
         else:
             bot.sendMessage(chat_id, "Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
     except BaseException as error:
-        bot.sendMessage(frigi_chat_id, "Gotcha!")
-        bot.sendMessage(frigi_chat_id, format(error))
-        print("Oops!", sys.exc_info()[0], "occurred.")
-        bot.sendMessage(frigi_chat_id, "Oops!", sys.exc_info()[0], "occurred on %s. From %s (@%s)" % (command, first_name, username))
+        print("Oops!", format(error), "occurred.")
+        bot.sendMessage(frigi_chat_id, "Oops!", format(error), "occurred on %s. From %s (@%s)" % (command, first_name, username))
 
 bot = telepot.Bot(API_KEY)
 
