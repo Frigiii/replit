@@ -66,7 +66,7 @@ async def echo(bot: Bot, update_id: int) -> int:
 
         # your bot can receive updates without messages
         # and not all messages contain text
-        if update.message and update.message.text:
+        if update.message and update.message.text and update_id != 0:
             # Reply to the message
             text = update.message.text
             if text == "/roll":
