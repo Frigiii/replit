@@ -68,13 +68,16 @@ async def update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("Gimme a second.")
     call("git -C /home/frigi/raspberrypi4 pull", shell=True)
     call("sudo systemctl restart bot", shell=True)
-    await update.message.reply_text("That didn't work? Or did it? Would be amazing.")
+    await update.message.reply_text("Done.")
 
-async def inv(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text(random.randint(1,6))
+async def rebootpi(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text("Ok, cya.")
+    call("sudo reboot", shell=True)
 
-async def inv(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text(random.randint(1,6))
+async def impossible(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text("Whyyyyyy")
+    raise NameError('MyBad')
+    
 
 async def inv(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(random.randint(1,6))
@@ -148,17 +151,6 @@ def handle(msg):
         print ("Got command: %s" % (command))
         bot.sendMessage(frigi_chat_id, "Got a chat: %s. From %s (@%s)" % (command, first_name, username))
 
-       
-         elif command == '/update':
-            bot.sendMessage(chat_id, "Gimme a second.")
-            call("git -C /home/frigi/raspberrypi4 pull", shell=True)
-            call("sudo systemctl restart bot", shell=True)
-        elif command == '/rebootpi':
-            bot.sendMessage(chat_id, "Ok, cya.")
-            call("sudo reboot", shell=True)
-        elif command == '/impossible':
-            bot.sendMessage(chat_id, "Whyyyyyy")
-            raise NameError('MyBad')
         elif command[0] == '/':
             bot.sendMessage(chat_id, "You want more functions? Just send your suggestion to @frigiii")
             bot.sendMessage(frigi_chat_id, "Oy look at this: %s (@%s) Just typed %s." % (first_name, username, command))
