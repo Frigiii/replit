@@ -71,13 +71,15 @@ async def echo(bot: Bot, update_id: int) -> int:
         return next_update_id
     return update_id
 
+"""
+
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Send a message when the command /help is issued."""
+    ""Send a message when the command /help is issued.""
     await update.message.reply_text("Help!")
 
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Echo the user message."""
+    ""Echo the user message.""
     await update.message.reply_text(update.message.text)
 
 async def roll(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -130,8 +132,6 @@ async def process_error(update: Update, error, job=None, coroutine = None) -> No
 
     return None
 
-
-"""
 
     message_id = msg['message_id']
     ""from""
