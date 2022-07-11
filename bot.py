@@ -68,7 +68,7 @@ async def update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("Gimme a second.")
     call("git -C /home/frigi/raspberrypi4 pull", shell=True)
     call("sudo systemctl restart bot", shell=True)
-    await update.message.reply_text("That didn't work? Or did it?")
+    await update.message.reply_text("That didn't work? Or did it? Would be amazing.")
 
 async def inv(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(random.randint(1,6))
