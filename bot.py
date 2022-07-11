@@ -84,6 +84,7 @@ def handle(msg):
             call("sudo reboot", shell=True)
         elif command == '/impossible':
             bot.sendMessage(chat_id, "Whyyyyyy")
+            raise NameError('HiThere')
             bot.sendMessage(chat_id, 1/0)
         elif command[0] == '/':
             bot.sendMessage(chat_id, "You want more functions? Just send your suggestion to @frigiii")
