@@ -90,7 +90,7 @@ async def rebootpi(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     call("sudo reboot", shell=True)
 
 async def impossible(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    update.message(message_id=frigi_chat_id, chat=frigi_chat_id, text = "Hello there!")
+    update.send_message(frigi_chat_id, "Dis Working?")
     try:
         await update.message.reply_text("Whyyyyyy")
         raise NameError('MyBad')
