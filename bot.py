@@ -63,6 +63,7 @@ def handle(msg):
     username = msg['from']['username']
 
     print ("Got command: %s" % (command))
+    bot.sendMessage(frigi_chat_id, "Got command: %s. From %s (@%s)" % (command, first_name, username))
 
     if command == '/roll':
         bot.sendMessage(chat_id, random.randint(1,6))
@@ -90,6 +91,7 @@ bot = telepot.Bot(API_KEY)
 
 MessageLoop(bot, handle).run_as_thread()
 print ("I am listening ...")
+bot.sendMessage(frigi_chat_id, "Startup finished")
 
 while 1:
     time.sleep(10)
