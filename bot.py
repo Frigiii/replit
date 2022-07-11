@@ -77,6 +77,7 @@ def handle(msg):
         call("git -C /home/frigi/raspberrypi4 pull", shell=True)
         call("sudo systemctl restart bot", shell=True)
     elif command == '/rebootpi':
+        bot.sendMessage(chat_id, "Ok, cya.")
         call("sudo reboot", shell=True)
     elif command[0] == '/':
         bot.sendMessage(chat_id, "You want more functions? Just send your suggestion to @frigiii")
