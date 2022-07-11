@@ -92,8 +92,9 @@ def handle(msg):
             bot.sendMessage(frigi_chat_id, "Oy look at this: %s (@%s) Just typed %s." % (first_name, username, command))
         else:
             bot.sendMessage(chat_id, "Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
-    except:
+    except BaseException as error:
         bot.sendMessage(frigi_chat_id, "Gotcha!")
+        bot.sendMessage(frigi_chat_id, format(error))
         print("Oops!", sys.exc_info()[0], "occurred.")
         bot.sendMessage(frigi_chat_id, "Oops!", sys.exc_info()[0], "occurred on %s. From %s (@%s)" % (command, first_name, username))
 
