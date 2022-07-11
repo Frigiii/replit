@@ -92,16 +92,6 @@ async def rebootpi(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 async def impossible(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("Whyyyyyy")
     raise NameError('MyBad')
-    
-
-async def inv(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text(random.randint(1,6))
-
-async def inv(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text(random.randint(1,6))
-
-async def inv(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text(random.randint(1,6))
 
 
 """
@@ -191,7 +181,10 @@ def main() -> None:
     application.add_handler(CommandHandler("hello", hello))
     application.add_handler(CommandHandler("myinfo", myinfo))
     application.add_handler(CommandHandler("rebootpi", rebootpi))
-    application.add_handler(CommandHandler("impossible", impossible))
+    try:
+        application.add_handler(CommandHandler("impossible", impossible))
+    except BaseException:
+        update.message.reply_text("Exception occured!")
 
     # on non command i.e message - echo the message on Telegram
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
