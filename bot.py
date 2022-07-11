@@ -4,6 +4,7 @@ from nis import match
 import re
 import time
 import random
+import sys
 import datetime
 from unittest import case
 import telepot
@@ -63,29 +64,32 @@ def handle(msg):
     username = msg['from']['username']
 
     print ("Got command: %s" % (command))
-    bot.sendMessage(frigi_chat_id, "Got command: %s. From %s (@%s)" % (command, first_name, username))
+    bot.sendMessage(frigi_chat_id, "Got a chat: %s. From %s (@%s)" % (command, first_name, username))
 
-    if command == '/roll':
-        bot.sendMessage(chat_id, random.randint(1,6))
-    elif command == '/time':
-        bot.sendMessage(chat_id, time.strftime("%a, %d.%m.%y, %H:%M:%S", time.localtime()))
-    elif command == '/hello':
-        bot.sendMessage(chat_id, greetingGenerator(msg))
-    elif command == '/myinfo':
-        bot.sendMessage(chat_id, myInfo(msg))
-    elif command == '/update':
-        bot.sendMessage(chat_id, "Gimme a second.")
-        call("git -C /home/frigi/raspberrypi4 pull", shell=True)
-        call("sudo systemctl restart bot", shell=True)
-    elif command == '/rebootpi':
-        bot.sendMessage(chat_id, "Ok, cya.")
-        call("sudo reboot", shell=True)
-    elif command[0] == '/':
-        bot.sendMessage(chat_id, "You want more functions? Just send your suggestion to @frigiii")
-        bot.sendMessage(frigi_chat_id, "Oy look at this: %s (@%s) Just typed %s." % (first_name, username, command))
-    else:
-        bot.sendMessage(chat_id, "Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
-
+    try:
+        if command == '/roll':
+            bot.sendMessage(chat_id, random.randint(1,6))
+        elif command == '/time':
+            bot.sendMessage(chat_id, time.strftime("%a, %d.%m.%y, %H:%M:%S", time.localtime()))
+        elif command == '/hello':
+            bot.sendMessage(chat_id, greetingGenerator(msg))
+        elif command == '/myinfo':
+            bot.sendMessage(chat_id, myInfo(msg))
+        elif command == '/update':
+            bot.sendMessage(chat_id, "Gimme a second.")
+            call("git -C /home/frigi/raspberrypi4 pull", shell=True)
+            call("sudo systemctl restart bot", shell=True)
+        elif command == '/rebootpi':
+            bot.sendMessage(chat_id, "Ok, cya.")
+            call("sudo reboot", shell=True)
+        elif command[0] == '/':
+            bot.sendMessage(chat_id, "You want more functions? Just send your suggestion to @frigiii")
+            bot.sendMessage(frigi_chat_id, "Oy look at this: %s (@%s) Just typed %s." % (first_name, username, command))
+        else:
+            bot.sendMessage(chat_id, "Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
+    except:
+        print("Oops!", sys.exc_info()[0], "occurred.")
+        bot.sendMessage(frigi_chat_id, "Oops!", sys.exc_info()[0], "occurred on %s. From %s (@%s)" % (command, first_name, username))
 
 bot = telepot.Bot(API_KEY)
 
