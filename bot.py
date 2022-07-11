@@ -7,20 +7,24 @@ import random
 import datetime
 from unittest import case
 import telepot
-from telepot.loop import MessageLoop
+"""from telepot.loop import MessageLoop"""
 from apikey import API_KEY
 from apikey import frigi_chat_id
 from subprocess import call
+import requests
+
+
+"""
 
 def myInfo(msg):
     message_id = msg['message_id']
-    """from"""
+    ""from""
     chat_id = msg['from']['id']
     is_bot = msg['from']['is_bot']
     first_name = msg['from']['first_name']
     username = msg['from']['username']
     language_code = msg['from']['language_code']
-    """chat"""
+    ""chat""
     chat_id_2 = msg['chat']['id']
     first_name_2 = msg['chat']['first_name']
     username_2 = msg['chat']['username']
@@ -100,9 +104,21 @@ def handle(msg):
         bot.sendMessage(frigi_chat_id, "Oops! \"" + format(error) + "\" occurred on %s. From %s (@%s)" % (command, first_name, username))
         print("Oops!", format(error), "occurred.")
 
+"""
+
+def request(token, method):
+    r = requests.get("https://api.telegram.org/bot" + token + "/" + method)
+    return r
+
+def MessageLoop():
+    while 1:
+        r = request(API_KEY, "getUpdates")
+        print(r)
+        time.sleep(3)
+
 bot = telepot.Bot(API_KEY)
 
-MessageLoop(bot, handle).run_as_thread()
+MessageLoop()
 print ("I am listening ...")
 bot.sendMessage(frigi_chat_id, "Startup finished")
 
