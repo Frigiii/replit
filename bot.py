@@ -45,7 +45,7 @@ async def main() -> NoReturn:
             update_id = None
 
         logger.info("listening for new messages...")
-        bot.send_message(chat_id=frigi_chat_id, text="Startup Succesfull!")
+        bot.send_message(frigi_chat_id, text="Startup Succesfull!")
         while True:
             try:
                 update_id = await echo(bot, update_id)
