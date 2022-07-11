@@ -79,7 +79,7 @@ async def echo(bot: Bot, update_id: int) -> int:
 
 
 async def roll(bot: Bot, update: update) -> None:
-    await bot.message.reply_text(random.randint(1,6))
+    await update.message.reply_text(random.randint(1,6))
 
 
 """
