@@ -63,10 +63,13 @@ async def echo(bot: Bot, update_id: int) -> int:
     updates = await bot.get_updates(offset=update_id, timeout=10)
     for update in updates:
         next_update_id = update.update_id + 1
-
+        first = True
         # your bot can receive updates without messages
         # and not all messages contain text
-        if update.message and update.message.text and update_id != 0:
+        if update.message and update.message.text:
+            if first:
+                first = False
+                return next_update_id
             # Reply to the message
             text = update.message.text
             if text == "/roll":
