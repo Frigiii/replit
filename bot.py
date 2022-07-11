@@ -113,7 +113,7 @@ def request(token, method):
 def MessageLoop():
     while 1:
         r = request(API_KEY, "getUpdates")
-        print(r)
+        print(r['message'])
         time.sleep(3)
 
 bot = telepot.Bot(API_KEY)
