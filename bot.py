@@ -114,6 +114,7 @@ async def myinfo(bot: Bot, update: update) -> None:
     await update.message.reply_text(random.randint(1,6))
 
 async def updater(bot: Bot, update: update) -> None:
+    print (update)
     await update.message.reply_text("Gimme a second.")
     call("git -C /home/frigi/raspberrypi4 pull", shell=True)
     call("sudo systemctl restart bot", shell=True)
