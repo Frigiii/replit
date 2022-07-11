@@ -93,9 +93,10 @@ def handle(msg):
         else:
             bot.sendMessage(chat_id, "Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
     except:
+        bot.sendMessage(frigi_chat_id, "Gotcha!")
         print("Oops!", sys.exc_info()[0], "occurred.")
         bot.sendMessage(frigi_chat_id, "Oops!", sys.exc_info()[0], "occurred on %s. From %s (@%s)" % (command, first_name, username))
-        
+
 bot = telepot.Bot(API_KEY)
 
 MessageLoop(bot, handle).run_as_thread()
