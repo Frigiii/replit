@@ -69,7 +69,7 @@ async def echo(bot: Bot, update_id: int) -> int:
         if update.message and update.message.text:
             # Reply to the message
             text = update.message.text
-            if text = "/roll":
+            if text == "/roll":
                 await roll(bot, update)
             else:
                 logger.info("A lonely message occured: %s!", update.message.text)
