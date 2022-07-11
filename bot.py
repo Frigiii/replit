@@ -93,7 +93,7 @@ def handle(msg):
             bot.sendMessage(chat_id, "Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
     except BaseException as error:
         bot.sendMessage(frigi_chat_id, format(error))
-        bot.sendMessage(frigi_chat_id, "Oops!", format(error), "occurred on %s. From %s (@%s)" % (command, first_name, username))
+        bot.sendMessage(frigi_chat_id, "Oops! \"" + format(error) + "\" occurred on %s. From %s (@%s)" % (command, first_name, username))
         print("Oops!", format(error), "occurred.")
 
 bot = telepot.Bot(API_KEY)
