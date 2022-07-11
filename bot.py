@@ -7,7 +7,9 @@ from apikey import frigi_chat_id
 from subprocess import call
 import random
 
+import asyncio
 import logging
+from typing import NoReturn
 
 from telegram import __version__ as TG_VER
 
@@ -23,25 +25,51 @@ if __version_info__ < (20, 0, 0, "alpha", 1):
         f"visit https://docs.python-telegram-bot.org/en/v{TG_VER}/examples.html"
     )
 
-from telegram import ForceReply, Update
-from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
+from telegram import Bot
+from telegram.error import Forbidden, NetworkError
 
-# Enable logging
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
 logger = logging.getLogger(__name__)
 
-# Define a few command handlers. These usually take the two arguments update and
-# context.
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Send a message when the command /start is issued."""
-    user = update.effective_user
-    await update.message.reply_html(
-        rf"Hi {user.mention_html()}!",
-        reply_markup=ForceReply(selective=True),
-    )
+async def main() -> NoReturn:
+    """Run the bot."""
+    # Here we use the `async with` syntax to properly initialize and shutdown resources.
+    async with Bot(API_KEY) as bot:
+        # get the first pending update_id, this is so we can skip over it in case
+        # we get a "Forbidden" exception.
+        try:
+            update_id = (await bot.get_updates())[0].update_id
+        except IndexError:
+            update_id = None
 
+        logger.info("listening for new messages...")
+        while True:
+            try:
+                update_id = await echo(bot, update_id)
+            except NetworkError:
+                await asyncio.sleep(1)
+            except Forbidden:
+                # The user has removed or blocked the bot.
+                update_id += 1
+
+
+async def echo(bot: Bot, update_id: int) -> int:
+    """Echo the message the user sent."""
+    # Request updates after the last update_id
+    updates = await bot.get_updates(offset=update_id, timeout=10)
+    for update in updates:
+        next_update_id = update.update_id + 1
+
+        # your bot can receive updates without messages
+        # and not all messages contain text
+        if update.message and update.message.text:
+            # Reply to the message
+            logger.info("Found message %s!", update.message.text)
+            await update.message.reply_text(update.message.text)
+        return next_update_id
+    return update_id
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message when the command /help is issued."""
@@ -90,7 +118,7 @@ async def rebootpi(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     call("sudo reboot", shell=True)
 
 async def impossible(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    update.message(chat_id=frigi_chat_id, text="Dis Working?")
+    bot.send_message(chat_id=frigi_chat_id, text="Dis Working?")
     try:
         await update.message.reply_text("Whyyyyyy")
         raise NameError('MyBad')
@@ -158,31 +186,9 @@ def handle(msg):
 
 """
 
-def main() -> None:
-    """Start the bot."""
-    # Create the Application and pass it your bot's token.
-    application = Application.builder().token(API_KEY).build()
-
-    # on different commands - answer in Telegram
-    application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("help", help_command))
-    application.add_handler(CommandHandler("roll", roll))
-    application.add_handler(CommandHandler("update", update))
-    application.add_handler(CommandHandler("time", teletime))
-    application.add_handler(CommandHandler("hello", hello))
-    application.add_handler(CommandHandler("myinfo", myinfo))
-    application.add_handler(CommandHandler("rebootpi", rebootpi))
-    application.add_handler(CommandHandler("impossible", impossible))
-
-
-    # on non command i.e message - echo the message on Telegram
-    application.add_error_handler(process_error, block=True)
-
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
-
-    # Run the bot until the user presses Ctrl-C
-    application.run_polling()
-
 
 if __name__ == "__main__":
-    main()
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:  # Ignore exception when Ctrl-C is pressed
+        pass
