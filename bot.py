@@ -85,7 +85,9 @@ def handle(msg):
         elif command == '/impossible':
             bot.sendMessage(chat_id, "Whyyyyyy")
             raise NameError('HiThere')
+            bot.sendMessage(chat_id, "hello")
             bot.sendMessage(chat_id, 1/0)
+            raise NameError('HiThere')
         elif command[0] == '/':
             bot.sendMessage(chat_id, "You want more functions? Just send your suggestion to @frigiii")
             bot.sendMessage(frigi_chat_id, "Oy look at this: %s (@%s) Just typed %s." % (first_name, username, command))
