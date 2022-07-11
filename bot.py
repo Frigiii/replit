@@ -52,7 +52,7 @@ def greetingGenerator(msg):
         "Wazzup! Dude?",
         "Hello! It’s been a pleasure meeting you.",
         "Hi " + first_name + "!",
-        "It's %H o'clock and this is all u got for me? Shame on you %s" % (time.localtime(), first_name),
+        "It's %s o'clock and this is all u got for me? Shame on you %s" % (time.strftime("%H",time.localtime()), first_name),
     ]
 
     return options[random.randint(0,len(options) - 1)]
