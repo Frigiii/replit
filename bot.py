@@ -57,15 +57,22 @@ def greetingGenerator(msg):
     return options[random.randint(0,len(options) - 1)]
 
 def handle(msg):
-    chat_id = msg['chat']['id']
-    command = msg['text']
-    first_name = msg['chat']['first_name']
-    username = msg['from']['username']
-
-    print ("Got command: %s" % (command))
-    bot.sendMessage(frigi_chat_id, "Got a chat: %s. From %s (@%s)" % (command, first_name, username))
-
     try:
+        chat_id = msg['chat']['id']
+        command = msg['text']
+        if msg['chat']['first_name']:
+            first_name = msg['chat']['first_name']
+        else:
+            first_name = "Stranger"
+        if msg['from']['username']:
+            username = msg['from']['username']
+        else:
+            username = "unknown"
+
+        print ("Got command: %s" % (command))
+        bot.sendMessage(frigi_chat_id, "Got a chat: %s. From %s (@%s)" % (command, first_name, username))
+
+
         if command == '/roll':
             bot.sendMessage(chat_id, random.randint(1,6))
         elif command == '/time':
@@ -83,7 +90,7 @@ def handle(msg):
             call("sudo reboot", shell=True)
         elif command == '/impossible':
             bot.sendMessage(chat_id, "Whyyyyyy")
-            raise NameError('HiThere')
+            raise NameError('MyBad')
         elif command[0] == '/':
             bot.sendMessage(chat_id, "You want more functions? Just send your suggestion to @frigiii")
             bot.sendMessage(frigi_chat_id, "Oy look at this: %s (@%s) Just typed %s." % (first_name, username, command))
