@@ -84,7 +84,6 @@ def handle(msg):
             call("sudo reboot", shell=True)
         elif command == '/impossible':
             bot.sendMessage(chat_id, "Whyyyyyy")
-            raise NameError('HiThere')
             bot.sendMessage(chat_id, "hello")
             bot.sendMessage(chat_id, 1/0)
             raise NameError('HiThere')
@@ -96,7 +95,7 @@ def handle(msg):
     except:
         print("Oops!", sys.exc_info()[0], "occurred.")
         bot.sendMessage(frigi_chat_id, "Oops!", sys.exc_info()[0], "occurred on %s. From %s (@%s)" % (command, first_name, username))
-
+        
 bot = telepot.Bot(API_KEY)
 
 MessageLoop(bot, handle).run_as_thread()
