@@ -95,8 +95,6 @@ def handle(msg):
             bot.sendMessage(frigi_chat_id, "Oy look at this: %s (@%s) Just typed %s." % (first_name, username, command))
         else:
             bot.sendMessage(chat_id, "Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
-        last_name = msg['from']['last_name']
-        bot.sendMessage(frigi_chat_id, last_name)
     except BaseException as error:
         bot.sendMessage(frigi_chat_id, "Oops! \"" + format(error) + "\" occurred on %s. From %s (@%s)" % (command, first_name, username))
         print("Oops!", format(error), "occurred.")
