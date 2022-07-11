@@ -87,11 +87,6 @@ async def help_command(bot: Bot, update: update) -> None:
     """Send a message when the command /help is issued."""
     await update.message.reply_text("Help!")
 
-
-async def echo(bot: Bot, update: update) -> None:
-    """Echo the user message."""
-    await update.message.reply_text(update.message.text)
-
 async def roll(bot: Bot, update: update) -> None:
     await update.message.reply_text(random.randint(1,6))
 
