@@ -59,7 +59,22 @@ async def teletime(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(time.strftime("%a, %d.%m.%y, %H:%M:%S", time.localtime()))
 
 async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text(random.randint(1,6))
+    first_name = update.effective_user
+
+    options = [
+        "Sry but i got no Hi's left over for you.",
+        "Hello there " + first_name + "!",
+        "There we go again... \nHi stranger!",
+        "Howdy! You alright, friend?",
+        "Yo! What’s going on, man?",
+        "What’s up! Buddy?",
+        "Sup?",
+        "Wazzup! Dude?",
+        "Hello! It’s been a pleasure meeting you.",
+        "Hi " + first_name + "!",
+        "It's %s o'clock and this is all u got for me? Shame on you %s!" % (time.strftime("%H",time.localtime()), first_name),
+    ]
+    await update.message.reply_text(options[random.randint(0,len(options)-1)])
 
 async def myinfo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(random.randint(1,6))
