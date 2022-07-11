@@ -90,8 +90,11 @@ async def rebootpi(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     call("sudo reboot", shell=True)
 
 async def impossible(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text("Whyyyyyy")
-    raise NameError('MyBad')
+    try:
+        await update.message.reply_text("Whyyyyyy")
+        raise NameError('MyBad')
+    except BaseException as error:
+        await update.message.reply_text(format(error))
 
 
 """
@@ -181,10 +184,8 @@ def main() -> None:
     application.add_handler(CommandHandler("hello", hello))
     application.add_handler(CommandHandler("myinfo", myinfo))
     application.add_handler(CommandHandler("rebootpi", rebootpi))
-    try:
-        application.add_handler(CommandHandler("impossible", impossible))
-    except BaseException:
-        update.message.reply_text("Exception occured!")
+    application.add_handler(CommandHandler("impossible", impossible))
+
 
     # on non command i.e message - echo the message on Telegram
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
