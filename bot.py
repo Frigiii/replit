@@ -90,11 +90,17 @@ async def rebootpi(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     call("sudo reboot", shell=True)
 
 async def impossible(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    update.message(message_id=frigi_chat_id, text = "Hello there!")
     try:
         await update.message.reply_text("Whyyyyyy")
         raise NameError('MyBad')
     except BaseException as error:
         await update.message.reply_text(format(error))
+    raise NameError('AlsoMyBad')
+
+async def process_error(update: Update, error, job=None, coroutine = None) -> None:
+
+    return None
 
 
 """
@@ -124,24 +130,6 @@ async def impossible(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
         ".\n - The date code for your message is: " + str(message_date) +
         ".\n - The message text is: \"" + text + "\"."        
         )
-def greetingGenerator(msg):
-    first_name = msg['chat']['first_name']
-
-    options = [
-        "Sry but i got no Hi's left over for you.",
-        "Hello there " + first_name + "!",
-        "There we go again... \nHi stranger!",
-        "Howdy! You alright, friend?",
-        "Yo! What’s going on, man?",
-        "What’s up! Buddy?",
-        "Sup?",
-        "Wazzup! Dude?",
-        "Hello! It’s been a pleasure meeting you.",
-        "Hi " + first_name + "!",
-        "It's %s o'clock and this is all u got for me? Shame on you %s!" % (time.strftime("%H",time.localtime()), first_name),
-    ]
-
-    return options[random.randint(0,len(options) - 1)]
 
 def handle(msg):
     try:
@@ -188,6 +176,8 @@ def main() -> None:
 
 
     # on non command i.e message - echo the message on Telegram
+    application.add_error_handler(process_error, block=True)
+
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
 
     # Run the bot until the user presses Ctrl-C
