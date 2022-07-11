@@ -107,7 +107,7 @@ def handle(msg):
 """
 
 def request(token, method):
-    r = requests.get("https://api.telegram.org/bot" + token + "/" + method)
+    r = requests.get("https://api.telegram.org/bot5457885103:AAGxW8IXcX-VtAKbWQgxh_vKKZu5_-J0UP4/getupdates")
     return r
 
 def MessageLoop():
