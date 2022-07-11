@@ -82,6 +82,9 @@ def handle(msg):
         elif command == '/rebootpi':
             bot.sendMessage(chat_id, "Ok, cya.")
             call("sudo reboot", shell=True)
+        elif command == '/impossible':
+            bot.sendMessage(chat_id, "Whyyyyyy")
+            bot.sendMessage(chat_id, 1/0)
         elif command[0] == '/':
             bot.sendMessage(chat_id, "You want more functions? Just send your suggestion to @frigiii")
             bot.sendMessage(frigi_chat_id, "Oy look at this: %s (@%s) Just typed %s." % (first_name, username, command))
