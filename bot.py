@@ -51,11 +51,12 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Echo the user message."""
     await update.message.reply_text(update.message.text)
 
+async def roll(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(random.randint(1,6))
 
 
-"""
 
-def myInfo(msg):
+
     message_id = msg['message_id']
     ""from""
     chat_id = msg['from']['id']
@@ -163,15 +164,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-
-"""
-bot = telepot.Bot(API_KEY)
-
-MessageLoop()
-print ("I am listening ...")
-bot.sendMessage(frigi_chat_id, "Startup finished")
-
-while 1:
-    time.sleep(10)
-    """
