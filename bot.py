@@ -71,6 +71,8 @@ async def echo(bot: Bot, update_id: int) -> int:
             text = update.message.text
             if text == "/roll":
                 await roll(bot, update)
+            elif text == "/update":
+                await update(bot, update)
             else:
                 logger.info("A lonely message occured: %s!", update.message.text)
                 await update.message.reply_text("Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
@@ -81,25 +83,22 @@ async def echo(bot: Bot, update_id: int) -> int:
 async def roll(bot: Bot, update: update) -> None:
     await update.message.reply_text(random.randint(1,6))
 
-
-"""
-
-async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def help_command(bot: Bot, update: update) -> None:
     ""Send a message when the command /help is issued.""
     await update.message.reply_text("Help!")
 
 
-async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def echo(bot: Bot, update: update) -> None:
     ""Echo the user message.""
     await update.message.reply_text(update.message.text)
 
-async def roll(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def roll(bot: Bot, update: update) -> None:
     await update.message.reply_text(random.randint(1,6))
 
-async def teletime(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def teletime(bot: Bot, update: update) -> None:
     await update.message.reply_text(time.strftime("%a, %d.%m.%y, %H:%M:%S", time.localtime()))
 
-async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def hello(bot: Bot, update: update) -> None:
     first_name = update.effective_user.first_name
 
     options = [
@@ -117,20 +116,20 @@ async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     ]
     await update.message.reply_text(options[random.randint(0,len(options)-1)])
 
-async def myinfo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def myinfo(bot: Bot, update: update) -> None:
     await update.message.reply_text(random.randint(1,6))
 
-async def update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def update(bot: Bot, update: update) -> None:
     await update.message.reply_text("Gimme a second.")
     call("git -C /home/frigi/raspberrypi4 pull", shell=True)
     call("sudo systemctl restart bot", shell=True)
     await update.message.reply_text("Done.")
 
-async def rebootpi(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def rebootpi(bot: Bot, update: update) -> None:
     await update.message.reply_text("Ok, cya.")
     call("sudo reboot", shell=True)
 
-async def impossible(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def impossible(bot: Bot, update: update) -> None:
     bot.send_message(chat_id=frigi_chat_id, text="Dis Working?")
     try:
         await update.message.reply_text("Whyyyyyy")
@@ -139,6 +138,7 @@ async def impossible(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
         await update.message.reply_text(format(error))
     raise NameError('AlsoMyBad')
 
+"""
 async def process_error(update: Update, error, job=None, coroutine = None) -> None:
 
     return None
