@@ -57,6 +57,10 @@ async def main() -> NoReturn:
                 # The user has removed or blocked the bot.
                 update_id += 1
             except BaseException as error:
+                try:
+                    update_id = (await bot.get_updates())[0].update_id #returns only one element
+                except IndexError:
+                    update_id = None                
                 print("Oops!", format(error), "occurred.")
                 await bot.send_message(frigi_chat_id, text="Oops! \"" + format(error) + "\" occurred.")
 
@@ -142,7 +146,7 @@ async def rebootpi(bot: Bot, update: update) -> None:
     call("sudo reboot", shell=True)
 
 async def impossible(bot: Bot, update: update) -> None:
-    await bot.send_message(chat_id=frigi_chat_id, text="Dis Working?")
+    #await bot.send_message(chat_id=frigi_chat_id, text="Dis Working?")
     try:
         await update.message.reply_text("Whyyyyyy")
         raise NameError('MyBad')
