@@ -68,9 +68,14 @@ async def echo(bot: Bot, update_id: int) -> int:
         # and not all messages contain text
         if update.message and update.message.text:
             # Reply to the message
+            commands = {
+                "/roll" : (roll(bot, update))
+            }
             text = update.message.text
-            if text == "/roll":
-                await roll(bot, update)
+            if commands[text]:
+                await commands[text]
+            #if text == "/roll":
+            #    await roll(bot, update)
             elif text == "/update":
                 await updater(bot, update, update.update_id)
             else:
