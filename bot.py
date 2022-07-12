@@ -57,10 +57,7 @@ async def main() -> NoReturn:
                 # The user has removed or blocked the bot.
                 update_id += 1
             except BaseException as error:
-                try:
-                    update_id = (await bot.get_updates())[0].update_id #returns only one element
-                except IndexError:
-                    update_id = None                
+                (await bot.get_updates(offset=update_id, timeout=10))[0].update_id #skip current update id
                 print("Oops!", format(error), "occurred.")
                 await bot.send_message(frigi_chat_id, text="Oops! \"" + format(error) + "\" occurred.")
 
