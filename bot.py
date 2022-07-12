@@ -65,7 +65,6 @@ async def main() -> NoReturn:
                 await bot.send_message(frigi_chat_id, text="Oops! \"" + format(error) + "\" occurred. Too bad...")
 
 async def echo(bot: Bot, update_id: int) -> int:
-    """Echo the message the user sent."""
     # Request updates after the last update_id
     updates = await bot.get_updates(offset=update_id, timeout=10)
     for update in updates:
@@ -75,7 +74,7 @@ async def echo(bot: Bot, update_id: int) -> int:
         if update.message and update.message.text:
             # Reply to the message
             text = update.message.text
-            await bot.sendMessage(frigi_chat_id, text = "Got a chat: %s. From %s (@%s)" % (text, update.effective_user.first_name, update.effective_user.username))
+            await bot.sendMessage(frigi_chat_id, text = "Got a chat: \"%s\". From %s (@%s)" % (text, update.effective_user.first_name, update.effective_user.username))
             if text == "/roll":
                 await roll(bot, update)
             elif text == "/update":
