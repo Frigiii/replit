@@ -148,9 +148,12 @@ async def updater(bot: Bot, update: update, update_id) -> None:
         await update.message.reply_text("Sry, but i can't do this for u ;(")
 
 async def rebootpi(bot: Bot, update: update) -> None:
-    await update.message.reply_text("Ok, cya.")
-    (await bot.get_updates(offset=update_id, timeout=10))[0].update_id #skip current update id
-    call("sudo reboot", shell=True)
+    if(update.effective_user.username) == "Frigiii":
+        await update.message.reply_text("Ok, cya.")
+        (await bot.get_updates(offset=update_id, timeout=10))[0].update_id #skip current update id
+        call("sudo reboot", shell=True)
+    else:
+        await update.message.reply_text("Ha! U thought so, but i won't allow you ;)")
 
 async def impossible(bot: Bot, update: update) -> None:
     #await bot.send_message(chat_id=frigi_chat_id, text="Dis Working?")
