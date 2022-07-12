@@ -73,6 +73,21 @@ async def echo(bot: Bot, update_id: int) -> int:
                 await roll(bot, update)
             elif text == "/update":
                 await updater(bot, update, update.update_id)
+            elif text == "/help":
+                await help_command(bot, update)
+            elif text == "/time":
+                await teletime(bot, update)
+            elif text == "/hello":
+                await hello(bot, update)
+            elif text == "/myinfo":
+                await myinfo(bot, update)
+            elif text == "/impossible":
+                await impossible(bot, update)
+            elif text == "/rebootpi":
+                await rebootpi(bot, update, update.update_id)
+            elif command[0] == '/':
+                await update.message.reply_text("You want more functions? Just send your suggestion to @frigiii")
+                await bot.send_Message(frigi_chat_id, text = "Oy look at this: %s (@%s) Just typed %s." % (update.effective_user.first_name, update.effective_user.username, update.message.text))
             else:
                 logger.info("A lonely message occured: %s!", update.message.text)
                 await update.message.reply_text("Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
@@ -86,9 +101,6 @@ async def roll(bot: Bot, update: update) -> None:
 async def help_command(bot: Bot, update: update) -> None:
     """Send a message when the command /help is issued."""
     await update.message.reply_text("Help!")
-
-async def roll(bot: Bot, update: update) -> None:
-    await update.message.reply_text(random.randint(1,6))
 
 async def teletime(bot: Bot, update: update) -> None:
     await update.message.reply_text(time.strftime("%a, %d.%m.%y, %H:%M:%S", time.localtime()))
@@ -124,6 +136,7 @@ async def updater(bot: Bot, update: update, update_id) -> None:
 
 async def rebootpi(bot: Bot, update: update) -> None:
     await update.message.reply_text("Ok, cya.")
+    (await bot.get_updates(offset=update_id, timeout=10))[0].update_id #skip current update id
     call("sudo reboot", shell=True)
 
 async def impossible(bot: Bot, update: update) -> None:
