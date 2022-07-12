@@ -69,7 +69,8 @@ async def echo(bot: Bot, update_id: int) -> int:
         if update.message and update.message.text:
             # Reply to the message
             commands = {
-                "/roll" : (await roll(bot, update))
+                "/roll" : (await roll(bot, update)),
+                "/help_command" :(await help_command(bot, update)),
             }
             text = update.message.text
             if commands[text]:
