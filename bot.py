@@ -58,8 +58,7 @@ async def main() -> NoReturn:
                 update_id += 1
             except BaseException as error:
                 print("Oops!", format(error), "occurred.")
-                bot.send_message(frigi_chat_id, text="Oops! \"" + format(error) + "\" occurred.")
-                print("Oops!", format(error), "occurred.")
+                await bot.send_message(frigi_chat_id, text="Oops! \"" + format(error) + "\" occurred.")
 
 async def echo(bot: Bot, update_id: int) -> int:
     """Echo the message the user sent."""
@@ -143,7 +142,7 @@ async def rebootpi(bot: Bot, update: update) -> None:
     call("sudo reboot", shell=True)
 
 async def impossible(bot: Bot, update: update) -> None:
-    bot.send_message(chat_id=frigi_chat_id, text="Dis Working?")
+    await bot.send_message(chat_id=frigi_chat_id, text="Dis Working?")
     try:
         await update.message.reply_text("Whyyyyyy")
         raise NameError('MyBad')
