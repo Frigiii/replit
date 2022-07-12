@@ -142,7 +142,7 @@ async def updater(bot: Bot, update: update, update_id) -> None:
             (await bot.get_updates(offset=update_id + 1, timeout=1))[0].update_id #skip current update id
         except IndexError:
             None
-        result = run(["git -C /home/frigi/raspberrypi4 pull"], capture_output=True, text=True)
+        result = run(["git","-C","/home/frigi/raspberrypi4","pull"], capture_output=True, text=True)
         await update.message.reply_text(result.stdout)
         await update.message.reply_text(result.stderr)
         call("git -C /home/frigi/raspberrypi4 pull", shell=True)
