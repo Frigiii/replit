@@ -134,7 +134,7 @@ async def myinfo(bot: Bot, update: update) -> None:
     await update.message.reply_text(random.randint(1,6))
 
 async def updater(bot: Bot, update: update, update_id) -> None:
-    if(update.effective_user.username) == "frigiii":
+    if(update.effective_user.username) == "Frigiii":
         print (update)
         await update.message.reply_text("Gimme a second.")
         try:
@@ -145,7 +145,7 @@ async def updater(bot: Bot, update: update, update_id) -> None:
         call("sudo systemctl restart bot", shell=True)
         await update.message.reply_text("Done.")
     else:
-        update.message.reply_text("Sry, but i can't do this for u ;(")
+        await update.message.reply_text("Sry, but i can't do this for u ;(")
 
 async def rebootpi(bot: Bot, update: update) -> None:
     await update.message.reply_text("Ok, cya.")
