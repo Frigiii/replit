@@ -87,7 +87,7 @@ async def echo(bot: Bot, update_id: int) -> int:
                 await rebootpi(bot, update, update.update_id)
             elif text[0] == '/':
                 await update.message.reply_text("You want more functions? Just send your suggestion to @frigiii")
-                await bot.send_Message(frigi_chat_id, text = "Oy look at this: %s (@%s) Just typed %s." % (update.effective_user.first_name, update.effective_user.username, text))
+                await bot.send_message(frigi_chat_id, text = "Oy look at this: %s (@%s) Just typed %s." % (update.effective_user.first_name, update.effective_user.username, text))
             else:
                 logger.info("A lonely message occured: %s!", update.message.text)
                 await update.message.reply_text("Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
