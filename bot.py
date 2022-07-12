@@ -147,10 +147,13 @@ async def updater(bot: Bot, update: update, update_id) -> None:
     else:
         await update.message.reply_text("Sry, but i can't do this for u ;(")
 
-async def rebootpi(bot: Bot, update: update) -> None:
+async def rebootpi(bot: Bot, update: update, update_id) -> None:
     if(update.effective_user.username) == "Frigiii":
         await update.message.reply_text("Ok, cya.")
-        (await bot.get_updates(offset=update_id, timeout=10))[0].update_id #skip current update id
+        try:
+            (await bot.get_updates(offset=update_id + 1, timeout=1))[0].update_id #skip current update id
+        except IndexError:
+            None
         call("sudo reboot", shell=True)
     else:
         await update.message.reply_text("Ha! U thought so, but i won't allow you ;)")
