@@ -3,6 +3,7 @@ from html import entities
 from nis import match
 import time
 from turtle import update
+from unittest import skip
 from apikey import API_KEY
 from apikey import frigi_chat_id
 from subprocess import call
@@ -41,7 +42,7 @@ async def main() -> NoReturn:
         # get the first pending update_id, this is so we can skip over it in case
         # we get a "Forbidden" exception.
         try:
-            update_id = (await bot.get_updates())[0].update_id
+            update_id = (await bot.get_updates())[0].update_id #returns only one element
         except IndexError:
             update_id = None
 
@@ -116,8 +117,9 @@ async def myinfo(bot: Bot, update: update) -> None:
 async def updater(bot: Bot, update: update) -> None:
     print (update)
     await update.message.reply_text("Gimme a second.")
+    await bot.get_updates(offset=update.update_id, timeout=10)[0] #skip current update id
     call("git -C /home/frigi/raspberrypi4 pull", shell=True)
-    call("sudo systemctl restart bot", shell=True)
+    #call("sudo systemctl restart bot", shell=True)
     await update.message.reply_text("Done.")
 
 async def rebootpi(bot: Bot, update: update) -> None:
