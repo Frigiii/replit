@@ -124,6 +124,7 @@ async def hello(bot: Bot, update: update) -> None:
         "Sup?",
         "Wazzup! Dude?",
         "Hello! It’s been a pleasure meeting you.",
+        "What do u do, fellow kids?",
         "Hi " + first_name + "!",
         "It's %s o'clock and this is all u got for me? Shame on you %s!" % (time.strftime("%H",time.localtime()), first_name),
     ]
