@@ -72,7 +72,7 @@ async def echo(bot: Bot, update_id: int) -> int:
             if text == "/roll":
                 await roll(bot, update)
             elif text == "/update":
-                await updater(bot, update)
+                await updater(bot, update, update.update_id)
             else:
                 logger.info("A lonely message occured: %s!", update.message.text)
                 await update.message.reply_text("Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
@@ -114,10 +114,10 @@ async def hello(bot: Bot, update: update) -> None:
 async def myinfo(bot: Bot, update: update) -> None:
     await update.message.reply_text(random.randint(1,6))
 
-async def updater(bot: Bot, update: update) -> None:
+async def updater(bot: Bot, update: update, update_id) -> None:
     print (update)
     await update.message.reply_text("Gimme a second.")
-    id = bot.get_updates(offset=update.update_id, timeout=10)[0] #skip current update id
+    id = bot.get_updates(offset=update_id, timeout=10)[0].update_id #skip current update id
     call("git -C /home/frigi/raspberrypi4 pull", shell=True)
     #call("sudo systemctl restart bot", shell=True)
     await update.message.reply_text("Done.")
