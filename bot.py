@@ -56,7 +56,10 @@ async def main() -> NoReturn:
             except Forbidden:
                 # The user has removed or blocked the bot.
                 update_id += 1
-
+            except BaseException as error:
+                print("Oops!", format(error), "occurred.")
+                bot.send_message(frigi_chat_id, text="Oops! \"" + format(error) + "\" occurred.")
+                print("Oops!", format(error), "occurred.")
 
 async def echo(bot: Bot, update_id: int) -> int:
     """Echo the message the user sent."""
