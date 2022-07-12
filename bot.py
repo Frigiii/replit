@@ -62,7 +62,7 @@ async def main() -> NoReturn:
                 except IndexError:
                     None
                 print("Oops!", format(error), "occurred.")
-                await bot.send_message(frigi_chat_id, text="Oops! \"" + format(error) + "\" occurred.")
+                await bot.send_message(frigi_chat_id, text="Oops! \"" + format(error) + "\" occurred. Too bad...")
 
 async def echo(bot: Bot, update_id: int) -> int:
     """Echo the message the user sent."""
