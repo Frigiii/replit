@@ -2,7 +2,7 @@ from ctypes import sizeof
 from html import entities
 from nis import match
 import time
-from turtle import update
+#from turtle import update
 from unittest import skip
 from apikey import API_KEY
 from apikey import frigi_chat_id
