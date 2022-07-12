@@ -117,7 +117,7 @@ async def myinfo(bot: Bot, update: update) -> None:
 async def updater(bot: Bot, update: update) -> None:
     print (update)
     await update.message.reply_text("Gimme a second.")
-    await bot.get_updates(offset=update.update_id, timeout=10)[0] #skip current update id
+    id = await bot.get_updates(offset=update.update_id, timeout=10)[0] #skip current update id
     call("git -C /home/frigi/raspberrypi4 pull", shell=True)
     #call("sudo systemctl restart bot", shell=True)
     await update.message.reply_text("Done.")
