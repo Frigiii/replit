@@ -148,7 +148,8 @@ async def updater(bot: Bot, update: update, update_id) -> None:
         #await update.message.reply_text(result.stderr)
         #call("git -C /home/frigi/raspberrypi4 pull", shell=True)
         #result = run(["sudo","systemctl","restart","bot"], capture_output=True, text=True)
-        subprocess.call('git -C /home/frigi/raspberrypi4 pull', shell=True)
+        subprocess.Popen('git -C /home/frigi/raspberrypi4 pull', shell=True)
+        time.sleep(5)
         subprocess.Popen('sudo systemctl restart bot', shell=True)
         await update.message.reply_text("Done.")
     else:
