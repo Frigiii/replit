@@ -166,7 +166,7 @@ async def rebootpi(bot: Bot, update: update, update_id) -> None:
 async def impossible(bot: Bot, update: update) -> None:
     #await bot.send_message(chat_id=frigi_chat_id, text="Dis Working?")
     try:
-        await update.message.reply_text("Whyyyyyyyy")
+        await update.message.reply_text("Whyyyyyy")
         raise NameError('MyBad')
     except BaseException as error:
         await update.message.reply_text(format(error))
