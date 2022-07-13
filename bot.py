@@ -168,6 +168,7 @@ async def status(bot: Bot, update: update) -> None:
             if i == '\\' :
                 b = True
                 i = '-'
+                logger.info("found one")
             if b and i == 'n':
                 i = " \n"
             else:
