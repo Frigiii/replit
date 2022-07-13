@@ -75,7 +75,10 @@ async def echo(bot: Bot, update_id: int) -> int:
         # and not all messages contain text
         if update.message and update.message.text:
             # Reply to the message
-            text = update.message.text
+            text = update.message.text            
+            x = text.split()
+            print(x)
+
             await bot.sendMessage(frigi_chat_id, text = "Got a chat: \"%s\". From %s (@%s)" % (text, update.effective_user.first_name, update.effective_user.username))
             if text == "/roll":
                 await roll(bot, update)
