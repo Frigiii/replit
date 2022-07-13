@@ -10,6 +10,8 @@ import subprocess
 from subprocess import call
 from subprocess import run
 import random
+import urllib3
+http = urllib3.PoolManager()
 
 import asyncio
 import logging
@@ -163,7 +165,7 @@ async def status(bot: Bot, update: update) -> None:
         response = subprocess.check_output('sudo systemctl status bot', shell=True)
         logger.info("Suceeded with getting status.")
         logger.info(response)
-        await update.message.reply_html(str(response))
+        await update.message.reply_html(http.request(response))
     else:
         await update.message.reply_text("Sry, got no Infos for you.")
 
