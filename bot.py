@@ -168,6 +168,7 @@ async def status(bot: Bot, update: update) -> None:
                 b = True
                 if text[i+1] == 'n':
                     text[i] = '\n'
+                    text[i+1] = None
             else:
                 b = False
         response = "".join(text)
