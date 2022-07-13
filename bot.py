@@ -1,6 +1,7 @@
 from ctypes import sizeof
 from html import entities
 from nis import match
+from ntpath import join
 import time
 from turtle import update
 from unittest import skip
@@ -161,18 +162,17 @@ async def updater(bot: Bot, update: update, update_id) -> None:
 async def status(bot: Bot, update: update) -> None:
     if(update.effective_user.username) == "Frigiii":
         response = str(subprocess.check_output('sudo systemctl status bot', shell=True))
+        response = list(response)
         b = False
-        for i in range(0,len(response)-1):
-            if response[i] == '\\' :
+        for i in response:
+            if i == '\\' :
                 b = True
-                response[i] = '-'
-            if b and response[i] == 'n':
-                response[i-1] = ' '
-                response[i] = "\n"
+            if b and i == 'n':
+                i = " \n"
             else:
                 b = False
-        response.replace("Main", '/n')
-        await update.message.reply_html(response[2])
+        response = join(response)
+        await update.message.reply_html(response)
     else:
         await update.message.reply_text("Sry, got no Infos for you.")
 
