@@ -163,7 +163,7 @@ async def status(bot: Bot, update: update) -> None:
         response = subprocess.check_output('sudo systemctl status bot', shell=True)
         logger.info("Suceeded with getting status.")
         logger.info(response)
-        #await update.message.reply_text(out)
+        await update.message.reply_text(out)
     else:
         await update.message.reply_text("Sry, got no Infos for you.")
 
