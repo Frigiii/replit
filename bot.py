@@ -162,7 +162,7 @@ async def status(bot: Bot, update: update) -> None:
     if(update.effective_user.username) == "Frigiii":
         response = str(subprocess.check_output('sudo systemctl status bot', shell=True))
         b = False
-        for i in response
+        for i in response:
             if i == '\\' :
                 b = True
             if b and i == 'n':
