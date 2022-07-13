@@ -65,8 +65,8 @@ async def main() -> NoReturn:
                     None
                 except BaseException as error_2:
                     None
-                print("Oops!", format(error), "occurred.")
-                await bot.send_message(frigi_chat_id, text="Oops! \"" + format(error) + "\" occurred. Too bad...")
+                print("Oops! In Main-Function \"", format(error), "\"occurred.")
+                await bot.send_message(frigi_chat_id, text="Oops! In Main Function \"" + format(error) + "\" occurred.")
 
 async def echo(bot: Bot, update_id: int) -> int:
     # Request updates after the last update_id
@@ -80,32 +80,35 @@ async def echo(bot: Bot, update_id: int) -> int:
             text = update.message.text            
             x = text.split()
             logger.info("Input: %s", x)
-
-            await bot.sendMessage(frigi_chat_id, text = "Got a chat: \"%s\". From %s (@%s)" % (text, update.effective_user.first_name, update.effective_user.username))
-            if text == "/roll":
-                await roll(bot, update)
-            elif text == "/update":
-                await updater(bot, update, update.update_id)
-            elif text == "/status":
-                await status(bot, update)
-            elif text == "/help":
-                await help_command(bot, update)
-            elif text == "/time":
-                await teletime(bot, update)
-            elif text == "/hello":
-                await hello(bot, update)
-            elif text == "/myinfo":
-                await myinfo(bot, update)
-            elif text == "/impossible":
-                await impossible(bot, update)
-            elif text == "/rebootpi":
-                await rebootpi(bot, update, update.update_id)
-            elif text[0] == '/':
-                await update.message.reply_text("You want more functions? Just send your suggestion to @frigiii")
-                await bot.send_message(frigi_chat_id, text = "Oy look at this: %s (@%s) Just typed %s." % (update.effective_user.first_name, update.effective_user.username, text))
-            else:
-                logger.info("A lonely message occured: %s!", update.message.text)
-                await update.message.reply_text("Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
+            try:
+                await bot.sendMessage(frigi_chat_id, text = "Got a chat: \"%s\". From %s (@%s)" % (text, update.effective_user.first_name, update.effective_user.username))
+                if text == "/roll":
+                    await roll(bot, update)
+                elif text == "/update":
+                    await updater(bot, update, update.update_id)
+                elif text == "/status":
+                    await status(bot, update)
+                elif text == "/help":
+                    await help_command(bot, update)
+                elif text == "/time":
+                    await teletime(bot, update)
+                elif text == "/hello":
+                    await hello(bot, update)    
+                elif text == "/myinfo":
+                    await myinfo(bot, update)
+                elif text == "/impossible":
+                    await impossible(bot, update)
+                elif text == "/rebootpi":
+                    await rebootpi(bot, update, update.update_id)
+                elif text[0] == '/':
+                    await update.message.reply_text("You want more functions? Just send your suggestion to @frigiii")
+                    await bot.send_message(frigi_chat_id, text = "Oy look at this: %s (@%s) Just typed %s." % (update.effective_user.first_name, update.effective_user.username, text))
+                else:
+                    logger.info("A lonely message occured: %s!", update.message.text)
+                    await update.message.reply_text("Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
+            except BaseException as error:
+                print("Oops! In Echo-Function \"", format(error), "\" occurred.")
+                await bot.send_message(frigi_chat_id, text="Oops! In Echo Function \"" + format(error) + "\" occurred.")
         return next_update_id
     return update_id
 
@@ -159,7 +162,10 @@ async def status(bot: Bot, update: update) -> None:
     if(update.effective_user.username) == "Frigiii":
         response = subprocess.call('sudo systemctl status bot', stdout = subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
         logger.info("Suceeded with getting status.")
-        out = response.communicate()[0]
+        try:
+            out = response.communicate()[0]
+        except BaseException as error:
+            await update.message.reply_text(format(error))
         #await update.message.reply_text(out)
     else:
         await update.message.reply_text("Sry, got no Infos for you.")
