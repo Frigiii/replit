@@ -165,6 +165,7 @@ async def status(bot: Bot, update: update) -> None:
         for i in range(0,len(response)-1):
             if response[i] == '\\' :
                 b = True
+                response[i] = '-'
             if b and response[i] == 'n':
                 response[i-1] = ' '
                 response[i] = "\n"
