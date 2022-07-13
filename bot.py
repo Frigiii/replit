@@ -163,14 +163,15 @@ async def status(bot: Bot, update: update) -> None:
     if(update.effective_user.username) == "Frigiii":
         response = str(subprocess.check_output('sudo systemctl status bot', shell=True))
         text = list(response)
-        b = list("")
+        b = []
         for i in range(0,len(text)-b):
             if text[i] == '\\' :
                 if text[i+1] == 'n':
                     text[i] = '\n'
-                    b.append(i+1)
+                    b.append('\n')
+                    i += 1
             else:
-                b = False
+                b.append(text[i])
         response = "".join(text)
         await update.message.reply_html(response)
     else:
