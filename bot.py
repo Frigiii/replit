@@ -172,7 +172,7 @@ async def status(bot: Bot, update: update) -> None:
                     i += 1
             else:
                 b.append(text[i])
-        response = "".join(text)
+        response = "".join(b)
         await update.message.reply_html(response)
     else:
         await update.message.reply_text("Sry, got no Infos for you.")
