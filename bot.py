@@ -171,7 +171,7 @@ async def status(bot: Bot, update: update) -> None:
             else:
                 b = False
         response.replace("Main", '/n')
-        await update.message.reply_html(response)
+        await update.message.reply_html(response[2])
     else:
         await update.message.reply_text("Sry, got no Infos for you.")
 
