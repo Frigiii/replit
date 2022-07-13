@@ -162,11 +162,12 @@ async def status(bot: Bot, update: update) -> None:
     if(update.effective_user.username) == "Frigiii":
         response = str(subprocess.check_output('sudo systemctl status bot', shell=True))
         b = False
-        for i in response:
-            if i == '\\' :
+        for i in range(0,len(response)-1):
+            if response[i] == '\\' :
                 b = True
-            if b and i == 'n':
-                i = " \n"
+            if b and response[i] == 'n':
+                response[i-1] = ' '
+                response[i] = "\n"
             else:
                 b = False
         response.replace("Main", '/n')
