@@ -77,7 +77,7 @@ async def echo(bot: Bot, update_id: int) -> int:
             # Reply to the message
             text = update.message.text            
             x = text.split()
-            print(x)
+            logger.info("Input: %s", x)
 
             await bot.sendMessage(frigi_chat_id, text = "Got a chat: \"%s\". From %s (@%s)" % (text, update.effective_user.first_name, update.effective_user.username))
             if text == "/roll":
