@@ -168,7 +168,7 @@ async def status(bot: Bot, update: update) -> None:
                 b = True
                 if text[i+1] == 'n':
                     text[i] = '\n'
-                    text.remove(i+1)
+                    text.pop(i+1)
             else:
                 b = False
         response = "".join(text)
