@@ -162,9 +162,9 @@ async def updater(bot: Bot, update: update, update_id) -> None:
 async def status(bot: Bot, update: update) -> None:
     if(update.effective_user.username) == "Frigiii":
         response = str(subprocess.check_output('sudo systemctl status bot', shell=True))
-        response = list(response)
+        text = list(response)
         b = False
-        for i in response:
+        for i in text:
             if i == '\\' :
                 b = True
                 i = '-'
@@ -172,7 +172,7 @@ async def status(bot: Bot, update: update) -> None:
                 i = " \n"
             else:
                 b = False
-        response = "".join(response)
+        response = "".join(text)
         await update.message.reply_html(response)
     else:
         await update.message.reply_text("Sry, got no Infos for you.")
