@@ -160,7 +160,7 @@ async def updater(bot: Bot, update: update, update_id) -> None:
 
 async def status(bot: Bot, update: update) -> None:
     if(update.effective_user.username) == "Frigiii":
-        response = subprocess.check_output('sudo systemctl status bot', stdout = subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        response = subprocess.check_output('sudo systemctl status bot', shell=True)
         logger.info("Suceeded with getting status.")
         logger.info(response)
         #await update.message.reply_text(out)
