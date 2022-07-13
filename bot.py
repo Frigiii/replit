@@ -84,6 +84,8 @@ async def echo(bot: Bot, update_id: int) -> int:
                 await roll(bot, update)
             elif text == "/update":
                 await updater(bot, update, update.update_id)
+            elif text == "/status":
+                await status(bot, update)
             elif text == "/help":
                 await help_command(bot, update)
             elif text == "/time":
@@ -140,24 +142,23 @@ async def myinfo(bot: Bot, update: update) -> None:
 
 async def updater(bot: Bot, update: update, update_id) -> None:
     if(update.effective_user.username) == "Frigiii":
-        print (update)
         await update.message.reply_text("Gimme a second.")
         try:
             (await bot.get_updates(offset=update_id + 1, timeout=1))[0].update_id #skip current update id
         except IndexError:
             None
-        #result = run(["git","-C","/home/frigi/raspberrypi4","pull"], capture_output=True, text=True)
-        #await update.message.reply_text(result.stdout)
-        #await update.message.reply_text(result.stderr)
-        #call("git -C /home/frigi/raspberrypi4 pull", shell=True)
-        #result = run(["sudo","systemctl","restart","bot"], capture_output=True, text=True)
         subprocess.call('git -C /home/frigi/raspberrypi4 pull https://frigiii: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@github.com/frigiii/raspberrypi4.git', shell=True)
-        #await update.message.reply_text(result.stdout)
-        #await update.message.reply_text(result.stderr)
         subprocess.call('sudo systemctl restart bot', shell=True)
         await update.message.reply_text("Done.")
     else:
         await update.message.reply_text("Sry, but i can't do this for u ;(")
+
+async def status(bot: Bot, update: update) -> None:
+    if(update.effective_user.username) == "Frigiii":
+        response = subprocess.call('sudo systemctl status bot', shell=True)
+        await update.message.reply_text(response)
+    else:
+        await update.message.reply_text("Sry, got no Infos for you.")
 
 async def rebootpi(bot: Bot, update: update, update_id) -> None:
     if(update.effective_user.username) == "Frigiii":
