@@ -63,6 +63,8 @@ async def main() -> NoReturn:
                     (await bot.get_updates(offset=update_id + 1, timeout=1))[0].update_id #skip current update id
                 except IndexError:
                     None
+                except BaseException as error_2:
+                    None
                 print("Oops!", format(error), "occurred.")
                 await bot.send_message(frigi_chat_id, text="Oops! \"" + format(error) + "\" occurred. Too bad...")
 
