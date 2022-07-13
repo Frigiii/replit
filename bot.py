@@ -108,7 +108,7 @@ async def roll(bot: Bot, update: update) -> None:
 
 async def help_command(bot: Bot, update: update) -> None:
     """Send a message when the command /help is issued."""
-    await update.message.reply_text("Help me!")
+    await update.message.reply_text("Help meee!")
 
 async def teletime(bot: Bot, update: update) -> None:
     await update.message.reply_text(time.strftime("%a, %d.%m.%y, %H:%M:%S", time.localtime()))
