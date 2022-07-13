@@ -148,6 +148,7 @@ async def updater(bot: Bot, update: update, update_id) -> None:
         #await update.message.reply_text(result.stderr)
         #call("git -C /home/frigi/raspberrypi4 pull", shell=True)
         #result = run(["sudo","systemctl","restart","bot"], capture_output=True, text=True)
+        subprocess.call('git -C /home/frigi/raspberrypi4 pull', shell=True)
         subprocess.Popen('sudo systemctl restart bot', shell=True)
         await update.message.reply_text("Done.")
     else:
@@ -160,7 +161,7 @@ async def rebootpi(bot: Bot, update: update, update_id) -> None:
             (await bot.get_updates(offset=update_id + 1, timeout=1))[0].update_id #skip current update id
         except IndexError:
             None
-        call("sudo reboot", shell=True)
+        subprocess.Popen("sudo reboot", shell=True)
     else:
         await update.message.reply_text("Ha! U thought so, but i won't allow you ;)")
 
