@@ -161,8 +161,16 @@ async def updater(bot: Bot, update: update, update_id) -> None:
 async def status(bot: Bot, update: update) -> None:
     if(update.effective_user.username) == "Frigiii":
         response = str(subprocess.check_output('sudo systemctl status bot', shell=True))
+        b = False
+        for i in response
+            if i == '\\' :
+                b = True
+            if b and i == 'n':
+                i = " \n"
+            else:
+                b = False
         response.replace("Main", '/n')
-        await update.message.reply_html(response[3])
+        await update.message.reply_html(response)
     else:
         await update.message.reply_text("Sry, got no Infos for you.")
 
