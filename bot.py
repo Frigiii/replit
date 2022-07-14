@@ -178,6 +178,11 @@ async def status(bot: Bot, update: update) -> None:
                         while not (text[i+1] == '\\' and text[i+2]=='n'):
                             text.pop(i+1)
             i += 1
+        i = 0
+        while i < len(text):
+            if text[i] == '\n' and text[i+1] == '\n':
+                text.pop(i)
+            i += 1
         response = "".join(text)
         #while(response.find("  ")):
         response.replace("  ", " ")
