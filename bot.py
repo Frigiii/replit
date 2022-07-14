@@ -82,7 +82,6 @@ async def echo(bot: Bot, update_id: int) -> int:
             try:
                 text = update.message.text            
                 x = text.split()
-                logger.info("Input: %s", x[0])
                 await bot.sendMessage(frigi_chat_id, text = "Got a chat: \"%s\". From %s (@%s)" % (text, update.effective_user.first_name, update.effective_user.username))
                 if text == "/roll":
                     await roll(bot, update)
@@ -108,7 +107,7 @@ async def echo(bot: Bot, update_id: int) -> int:
                 else:
                     logger.info("A lonely message occured: %s!", update.message.text)
                     await update.message.reply_text("Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
-                logger.info(x[0])
+                logger.info("%s", x[0])
             except BaseException as error:
                 print("Oops! In Echo-Function \"", format(error), "\" occurred.")
                 await bot.send_message(frigi_chat_id, text="Oops! In Echo Function \"" + format(error) + "\" occurred.")
