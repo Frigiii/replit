@@ -7,6 +7,7 @@ from turtle import update
 from unittest import skip
 from apikey import API_KEY
 from apikey import frigi_chat_id
+from apikey import GIT_URL
 import subprocess
 from subprocess import call
 from subprocess import run
@@ -154,7 +155,7 @@ async def updater(bot: Bot, update: update, update_id) -> None:
             (await bot.get_updates(offset=update_id + 1, timeout=1))[0].update_id #skip current update id
         except IndexError:
             None
-        subprocess.call('git -C /home/frigi/raspberrypi4 pull https://frigiii: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@github.com/frigiii/raspberrypi4.git', shell=True)
+        subprocess.call('git -C /home/frigi/raspberrypi4 pull ' + GIT_URL, shell=True)
         subprocess.call('sudo systemctl restart bot', shell=True)
         await update.message.reply_text("Done.")
     else:
