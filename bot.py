@@ -79,10 +79,10 @@ async def echo(bot: Bot, update_id: int) -> int:
         # and not all messages contain text
         if update.message and update.message.text:
             # Reply to the message
-            text = update.message.text            
-            x = text.split()
-            logger.info("Input: %s", x)
             try:
+                text = update.message.text            
+                x = text.split()
+                logger.info("Input: %s", x)
                 await bot.sendMessage(frigi_chat_id, text = "Got a chat: \"%s\". From %s (@%s)" % (text, update.effective_user.first_name, update.effective_user.username))
                 if text == "/roll":
                     await roll(bot, update)
@@ -210,66 +210,6 @@ async def impossible(bot: Bot, update: update) -> None:
     except BaseException as error:
         await update.message.reply_text(format(error))
     raise NameError('AlsoMyBad')
-
-"""
-async def process_error(update: Update, error, job=None, coroutine = None) -> None:
-
-    return None
-
-
-    message_id = msg['message_id']
-    ""from""
-    chat_id = msg['from']['id']
-    is_bot = msg['from']['is_bot']
-    first_name = msg['from']['first_name']
-    username = msg['from']['username']
-    language_code = msg['from']['language_code']
-    ""chat""
-    chat_id_2 = msg['chat']['id']
-    first_name_2 = msg['chat']['first_name']
-    username_2 = msg['chat']['username']
-    chat_type = msg['chat']['type']
-
-    message_date = msg['date']
-    text = msg['text']
-
-    return("Here's, what informations I received with your message:\n - The message id is " + str(message_id) +
-        ".\n - Our chat id is " + str(chat_id) +
-        ".\n - You're " + ("a" if is_bot else "no") + " bot"
-        ".\n - Your first name is " + first_name + ", your username " + username +
-        ".\n - The language code of our chat is: " + language_code +
-        ".\n - The chat type is set to: " + chat_type +
-        ".\n - The date code for your message is: " + str(message_date) +
-        ".\n - The message text is: \"" + text + "\"."        
-        )
-
-def handle(msg):
-    try:
-        chat_id = msg['chat']['id']
-        command = msg['text']
-        if msg['chat']['first_name']:
-            first_name = msg['chat']['first_name']
-        else:
-            first_name = "Stranger"
-        if msg['from']['username']:
-            username = msg['from']['username']
-        else:
-            username = "unknown"
-
-        print ("Got command: %s" % (command))
-        bot.sendMessage(frigi_chat_id, "Got a chat: %s. From %s (@%s)" % (command, first_name, username))
-
-        elif command[0] == '/':
-            bot.sendMessage(chat_id, "You want more functions? Just send your suggestion to @frigiii")
-            bot.sendMessage(frigi_chat_id, "Oy look at this: %s (@%s) Just typed %s." % (first_name, username, command))
-        else:
-            bot.sendMessage(chat_id, "Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
-    except BaseException as error:
-        bot.sendMessage(frigi_chat_id, "Oops! \"" + format(error) + "\" occurred on %s. From %s (@%s)" % (command, first_name, username))
-        print("Oops!", format(error), "occurred.")
-
-"""
-
 
 if __name__ == "__main__":
     try:
