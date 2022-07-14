@@ -175,7 +175,7 @@ async def status(bot: Bot, update: update) -> None:
                     while(text[i+1] == " "):
                         text.pop(i+1)
                     if(text[i+1] == '\\'):
-                        while not (text[i+1] == '\\' and text[i+2]=='n')
+                        while not (text[i+1] == '\\' and text[i+2]=='n'):
                             text.pop(i+1)
             i += 1
         response = "".join(text)
