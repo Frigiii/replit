@@ -110,6 +110,7 @@ async def echo(bot: Bot, update_id: int) -> int:
             except BaseException as error:
                 print("Oops! In Echo-Function \"", format(error), "\" occurred.")
                 await bot.send_message(frigi_chat_id, text="Oops! In Echo Function \"" + format(error) + "\" occurred.")
+            logger.info(x[1])
         return next_update_id
     return update_id
 
