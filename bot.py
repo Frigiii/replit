@@ -172,8 +172,8 @@ async def status(bot: Bot, update: update) -> None:
             else:
                 b = False
         response = "".join(text)
-        while(response.find("  ")):
-            response.replace("  ", " ")
+        #while(response.find("  ")):
+        response.replace("  ", " ")
         await update.message.reply_html(response)
     else:
         await update.message.reply_text("Sry, got no Infos for you.")
