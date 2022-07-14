@@ -170,6 +170,8 @@ async def status(bot: Bot, update: update) -> None:
                 if text[i+1] == 'n':
                     text[i] = '\n'
                     text.pop(i+1)
+                    while(text[i+1] == " "):
+                        text.pop(i+1)
             i += 1
         response = "".join(text)
         #while(response.find("  ")):
