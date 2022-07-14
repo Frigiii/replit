@@ -82,7 +82,7 @@ async def echo(bot: Bot, update_id: int) -> int:
             try:
                 text = update.message.text            
                 x = text.split()
-                logger.info("Input: %s", x)
+                logger.info("Input: %s", x[0])
                 await bot.sendMessage(frigi_chat_id, text = "Got a chat: \"%s\". From %s (@%s)" % (text, update.effective_user.first_name, update.effective_user.username))
                 if text == "/roll":
                     await roll(bot, update)
@@ -185,7 +185,6 @@ async def status(bot: Bot, update: update) -> None:
                 text.pop(i)
             i += 1
         response = "".join(text)
-        #while(response.find("  ")):
         response.replace("  ", " ")
         await update.message.reply_html(response)
     else:
