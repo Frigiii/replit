@@ -166,6 +166,8 @@ async def status(bot: Bot, update: update) -> None:
         text = list(response)
         i = 0
         while i < len(text):
+            while text(i) != 'b' and text(i+1) != 'o':
+                text.pop(i)
             if text[i] == '\\' :
                 if text[i+1] == 'n':
                     text[i] = '\n'
