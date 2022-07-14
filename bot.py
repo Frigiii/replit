@@ -165,9 +165,9 @@ async def status(bot: Bot, update: update) -> None:
         response = str(subprocess.check_output('sudo systemctl status bot', shell=True))
         text = list(response)
         i = 0
+        while text(i) != 'b' and text(i+1) != 'o':
+            text.pop(i)
         while i < len(text):
-            while text(i) != 'b' and text(i+1) != 'o':
-                text.pop(i)
             if text[i] == '\\' :
                 if text[i+1] == 'n':
                     text[i] = '\n'
