@@ -169,7 +169,7 @@ async def shell(bot: Bot, update: update, x) -> None:
         x.pop(0)
         if len(x):
             await update.message.reply_text("There we go:")
-            await update.message.reply_text("".join(x))
+            await update.message.reply_text(' '.join(x))
             response = str(subprocess.check_output("".join(x), shell=True))
             await update.message.reply_html(response)
         else:
