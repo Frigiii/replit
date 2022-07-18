@@ -112,7 +112,6 @@ async def echo(bot: Bot, update_id: int) -> int:
                 else:
                     logger.info("A lonely message occured: %s!", update.message.text)
                     await update.message.reply_text("Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
-                await update.message.reply_text(x[0])
             except BaseException as error:
                 print("Oops! In Echo-Function \"", format(error), "\" occurred.")
                 await bot.send_message(frigi_chat_id, text="Oops! In Echo Function \"" + format(error) + "\" occurred.")
@@ -165,9 +164,8 @@ async def updater(bot: Bot, update: update, update_id) -> None:
     else:
         await update.message.reply_text("Sry, but i can't do this for u ;(")
 
-async def shell(bot: Bot, update: update, y) -> None:
+async def shell(bot: Bot, update: update, x) -> None:
     if(update.effective_user.username) == "Frigiii":
-        x = y
         x.pop(0)
         if len(x):
             await update.message.reply_text("There we go:")
