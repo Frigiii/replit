@@ -82,6 +82,7 @@ async def echo(bot: Bot, update_id: int) -> int:
             try:
                 text = update.message.text            
                 x = text.split()
+                text = x[0]
                 await bot.sendMessage(frigi_chat_id, text = "Got a chat: \"%s\". From %s (@%s)" % (text, update.effective_user.first_name, update.effective_user.username))
                 if text == "/roll":
                     await roll(bot, update)
