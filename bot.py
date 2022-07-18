@@ -171,6 +171,25 @@ async def shell(bot: Bot, update: update, x) -> None:
             await update.message.reply_text("There we go:")
             response = str(subprocess.check_output(' '.join(x), shell=True))
             await update.message.reply_text("Got a response:")
+            text = list(response)
+            i = 0
+            while i < len(text):
+                if text[i] == '\\' :
+                    if text[i+1] == 'n':
+                        text[i] = '\n'
+                        text.pop(i+1)
+                        while(text[i+1] == " "):
+                            text.pop(i+1)
+                        if(text[i+1] == '\\'):
+                            while not (text[i+1] == '\\' and text[i+2]=='n'):
+                                text.pop(i+1)
+                i += 1
+            i = 0
+            while i < len(text):
+                if text[i] == '\n' and text[i+1] == '\n':
+                    text.pop(i)
+                i += 1
+            response = "".join(text)
             await update.message.reply_text(format(response))
         else:
             await update.message.reply_text("At least tell me what to do!")
