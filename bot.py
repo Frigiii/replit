@@ -5,6 +5,7 @@ from ntpath import join
 import time
 from turtle import update
 from unittest import skip
+from urllib import response
 from apikey import API_KEY
 from apikey import frigi_chat_id
 from apikey import GIT_URL
@@ -90,6 +91,8 @@ async def echo(bot: Bot, update_id: int) -> int:
                     await updater(bot, update, update.update_id)
                 elif text == "/status":
                     await status(bot, update)
+                elif text == "/shell":
+                    await shell(bot, update, x)
                 elif text == "/help":
                     await help_command(bot, update)
                 elif text == "/time":
@@ -161,6 +164,18 @@ async def updater(bot: Bot, update: update, update_id) -> None:
     else:
         await update.message.reply_text("Sry, but i can't do this for u ;(")
 
+async def status(bot: Bot, update: update, x) -> None:
+    if(update.effective_user.username) == "Frigiii":
+        await update.message.reply_text("There we go:")
+        x.pop[0]
+        if len(x):
+            response = str(subprocess.check_output(''.join(x), shell=True))
+            await update.message.reply_html(response)
+        else:
+            await update.message.reply_text("At least tell me what to do!")
+    else:
+        await update.message.reply_text("Why u even trying?")
+
 async def status(bot: Bot, update: update) -> None:
     if(update.effective_user.username) == "Frigiii":
         response = str(subprocess.check_output('sudo systemctl status bot', shell=True))
@@ -185,7 +200,6 @@ async def status(bot: Bot, update: update) -> None:
                 text.pop(i)
             i += 1
         response = "".join(text)
-        response.replace("  ", " ")
         await update.message.reply_html(response)
     else:
         await update.message.reply_text("Sry, got no Infos for you.")
