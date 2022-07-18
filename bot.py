@@ -164,7 +164,7 @@ async def updater(bot: Bot, update: update, update_id) -> None:
     else:
         await update.message.reply_text("Sry, but i can't do this for u ;(")
 
-async def status(bot: Bot, update: update, x) -> None:
+async def shell(bot: Bot, update: update, x) -> None:
     if(update.effective_user.username) == "Frigiii":
         await update.message.reply_text("There we go:")
         x.pop[0]
