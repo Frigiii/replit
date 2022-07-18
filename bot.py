@@ -166,9 +166,9 @@ async def updater(bot: Bot, update: update, update_id) -> None:
 
 async def shell(bot: Bot, update: update, x) -> None:
     if(update.effective_user.username) == "Frigiii":
-        await update.message.reply_text("There we go:")
         x.pop(0)
         if len(x):
+            await update.message.reply_text("There we go:")
             response = str(subprocess.check_output(''.join(x), shell=True))
             await update.message.reply_html(response)
         else:
