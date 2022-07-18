@@ -2,6 +2,7 @@ from ctypes import sizeof
 from html import entities
 from nis import match
 from ntpath import join
+from re import X
 import time
 from turtle import update
 from unittest import skip
@@ -111,7 +112,7 @@ async def echo(bot: Bot, update_id: int) -> int:
                 else:
                     logger.info("A lonely message occured: %s!", update.message.text)
                     await update.message.reply_text("Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
-                await update.message.reply_text(text[0])
+                await update.message.reply_text(x[0])
             except BaseException as error:
                 print("Oops! In Echo-Function \"", format(error), "\" occurred.")
                 await bot.send_message(frigi_chat_id, text="Oops! In Echo Function \"" + format(error) + "\" occurred.")
