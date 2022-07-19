@@ -191,6 +191,7 @@ async def shell(bot: Bot, update: update, x) -> None:
                 i += 1
             response = "".join(text)
             print(response)
+            logger.info("Got Command: \"%s\" with response: \"%s\"", ' '.join(x), response)
             await update.message.reply_text(format(response))
         else:
             await update.message.reply_text("At least tell me what to do!")
