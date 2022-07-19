@@ -171,6 +171,7 @@ async def shell(bot: Bot, update: update, x) -> None:
             await update.message.reply_text("There we go:")
             response = str(subprocess.check_output(' '.join(x), shell=True))
             await update.message.reply_text("Got a response:")
+            logger.info("Got Command: \"%s\" with response: \"%s\"", ' '.join(x), response)
             text = list(response)
             i = 0
             while i < len(text):
@@ -190,7 +191,6 @@ async def shell(bot: Bot, update: update, x) -> None:
                     text.pop(i)
                 i += 1
             response = "".join(text)
-            logger.info("Got Command: \"%s\" with response: \"%s\"", ' '.join(x), response)
             print(response)
             await update.message.reply_text(format(response))
         else:
