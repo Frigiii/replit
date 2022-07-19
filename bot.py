@@ -191,7 +191,7 @@ async def shell(bot: Bot, update: update, x) -> None:
                 i += 1
             response = "".join(text)
             text = []
-            max_length = 4096
+            max_length = 4097
             while len(response) > max_length:
                 text.append(response[0:max_length])
                 response = response[max_length:len(response)-1]
