@@ -78,13 +78,14 @@ async def echo(bot: Bot, update_id: int) -> int:
         # and not all messages contain text
         if update.message and update.message.text:
             # Reply to the message
+            type = 'message'
             try:
                 text = update.message.text            
                 x = text.split()
                 text = x[0]
                 await bot.sendMessage(frigi_channel_id, text = "Got a chat: \"%s\". From %s (@%s)" % (' '.join(x), update.effective_user.first_name, update.effective_user.username))
                 if text == "/roll":
-                    await roll(bot, update, 'message')
+                    await roll(bot, update, type)
                 elif text == "/update":
                     await updater(bot, update, update.update_id)
                 elif text == "/status":
@@ -113,8 +114,9 @@ async def echo(bot: Bot, update_id: int) -> int:
                 print("Oops! In Echo-Function \"", format(error), "\" occurred.")
                 await bot.send_message(frigi_channel_id, text="Oops! In Echo Function \"" + format(error) + "\" occurred.")
         elif update.channel_post and update.channel_post.text:
+            type = 'channel_post'
             try:
-                await roll(bot, update, 'channel_post')
+                await roll(bot, update, type)
             except BaseException as error:
                 print("Oops! In Echo-Function \"", format(error), "\" occurred.")
                 await bot.send_message(frigi_channel_id, text="Oops! In Echo Function \"" + format(error) + "\" occurred.")
@@ -122,8 +124,8 @@ async def echo(bot: Bot, update_id: int) -> int:
     return update_id
 
 
-async def roll(bot: Bot, update: update, __type__) -> None:
-    await update(__type__).reply_text(random.randint(1,6))
+async def roll(bot: Bot, update: update, type) -> None:
+    await update(type).reply_text(random.randint(1,6))
 
 async def help_command(bot: Bot, update: update) -> None:
     """Send a message when the command /help is issued."""
