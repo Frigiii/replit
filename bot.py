@@ -64,6 +64,7 @@ async def main() -> NoReturn:
                 # The user has removed or blocked the bot.
                 update_id += 1
             except BaseException as error:
+                # skips the current message
                 update_id += 1
                 print("Oops! In Main-Function \"", format(error), "\"occurred.")
                 await bot.send_message(frigi_channel_id, text="Oops! In Main Function \"" + format(error) + "\" occurred.")
@@ -112,13 +113,17 @@ async def echo(bot: Bot, update_id: int) -> int:
                 print("Oops! In Echo-Function \"", format(error), "\" occurred.")
                 await bot.send_message(frigi_channel_id, text="Oops! In Echo Function \"" + format(error) + "\" occurred.")
         elif update.channel_post and update.channel_post.text:
-            await roll(bot, update)
+            try:
+                await roll(bot, update, 'channel_post')
+            except BaseException as error:
+                print("Oops! In Echo-Function \"", format(error), "\" occurred.")
+                await bot.send_message(frigi_channel_id, text="Oops! In Echo Function \"" + format(error) + "\" occurred.")
         return next_update_id
     return update_id
 
 
-async def roll(bot: Bot, update: update) -> None:
-    await update.message.reply_text(random.randint(1,6))
+async def roll(bot: Bot, update: update, __type__) -> None:
+    await update.__type__.reply_text(random.randint(1,6))
 
 async def help_command(bot: Bot, update: update) -> None:
     """Send a message when the command /help is issued."""
