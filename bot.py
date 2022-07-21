@@ -84,7 +84,7 @@ async def echo(bot: Bot, update_id: int) -> int:
                 text = x[0]
                 await bot.sendMessage(frigi_channel_id, text = "Got a chat: \"%s\". From %s (@%s)" % (' '.join(x), update.effective_user.first_name, update.effective_user.username))
                 if text == "/roll":
-                    await roll(bot, update)
+                    await roll(bot, update, 'message')
                 elif text == "/update":
                     await updater(bot, update, update.update_id)
                 elif text == "/status":
