@@ -8,7 +8,7 @@ from turtle import update
 from unittest import skip
 from urllib import response
 from apikey import API_KEY
-from apikey import frigi_chat_id
+from apikey import frigi_channel_id
 from apikey import GIT_URL
 import subprocess
 from subprocess import call
@@ -53,7 +53,7 @@ async def main() -> NoReturn:
             update_id = None
 
         logger.info("listening for new messages...")
-        await bot.send_message(frigi_chat_id, text="Startup Succesfull!")
+        await bot.send_message(frigi_channel_id, text="Startup Succesfull!")
         while True:
             try:
                 update_id = await echo(bot, update_id)
@@ -70,7 +70,7 @@ async def main() -> NoReturn:
                 except BaseException as error_2:
                     None
                 print("Oops! In Main-Function \"", format(error), "\"occurred.")
-                await bot.send_message(frigi_chat_id, text="Oops! In Main Function \"" + format(error) + "\" occurred.")
+                await bot.send_message(frigi_channel_id, text="Oops! In Main Function \"" + format(error) + "\" occurred.")
 
 async def echo(bot: Bot, update_id: int) -> int:
     # Request updates after the last update_id
@@ -85,7 +85,7 @@ async def echo(bot: Bot, update_id: int) -> int:
                 text = update.message.text            
                 x = text.split()
                 text = x[0]
-                await bot.sendMessage(frigi_chat_id, text = "Got a chat: \"%s\". From %s (@%s)" % (' '.join(x), update.effective_user.first_name, update.effective_user.username))
+                await bot.sendMessage(frigi_channel_id, text = "Got a chat: \"%s\". From %s (@%s)" % (' '.join(x), update.effective_user.first_name, update.effective_user.username))
                 if text == "/roll":
                     await roll(bot, update)
                 elif text == "/update":
@@ -108,13 +108,13 @@ async def echo(bot: Bot, update_id: int) -> int:
                     await rebootpi(bot, update, update.update_id)
                 elif text[0] == '/':
                     await update.message.reply_text("You want more functions? Just send your suggestion to @frigiii")
-                    await bot.send_message(frigi_chat_id, text = "Oy look at this: %s (@%s) Just typed %s." % (update.effective_user.first_name, update.effective_user.username, text))
+                    await bot.send_message(frigi_channel_id, text = "Oy look at this: %s (@%s) Just typed %s." % (update.effective_user.first_name, update.effective_user.username, text))
                 else:
                     logger.info("A lonely message occured: %s!", update.message.text)
                     await update.message.reply_text("Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
             except BaseException as error:
                 print("Oops! In Echo-Function \"", format(error), "\" occurred.")
-                await bot.send_message(frigi_chat_id, text="Oops! In Echo Function \"" + format(error) + "\" occurred.")
+                await bot.send_message(frigi_channel_id, text="Oops! In Echo Function \"" + format(error) + "\" occurred.")
         return next_update_id
     return update_id
 
@@ -244,7 +244,7 @@ async def rebootpi(bot: Bot, update: update, update_id) -> None:
         await update.message.reply_text("Ha! U thought so, but i won't allow you ;)")
 
 async def impossible(bot: Bot, update: update) -> None:
-    #await bot.send_message(chat_id=frigi_chat_id, text="Dis Working?")
+    #await bot.send_message(chat_id=frigi_channel_id, text="Dis Working?")
     try:
         await update.message.reply_text("Whyyyyyy")
         raise NameError('MyBad')
