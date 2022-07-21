@@ -166,7 +166,11 @@ async def updater(bot: Bot, update: update, update_id) -> None:
         await update.message.reply_text("Sry, but i can't do this for u ;(")
 
 async def shell(bot: Bot, update: update, x) -> None:
-    if(update.effective_user.username) == "rigiii":
+    cont = True
+    for i in x:
+        if i in ['restart','stop']:
+            cont = False
+    if(update.effective_user.username) == "Frigiii" and cont:
         x.pop(0)
         if len(x):
             await update.message.reply_text("There we go:")
