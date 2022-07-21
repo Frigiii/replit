@@ -125,7 +125,7 @@ async def echo(bot: Bot, update_id: int) -> int:
 
 
 async def roll(bot: Bot, update: update, type) -> None:
-    await getattr(update, type, 'reply_text(random.randint(1,6))')
+    await eval('update' + type + 'reply_text(random.randint(1,6))')
     #await update(type).reply_text(random.randint(1,6))
 
 async def help_command(bot: Bot, update: update) -> None:
