@@ -255,7 +255,7 @@ async def rebootpi(bot: Bot, update: update, type, update_id) -> None:
             None
         subprocess.Popen("sudo reboot", shell=True)
     else:
-        await eval('update.' + type + '.reply_text("Ha! U thought so, but i won't allow you ;)")
+        await eval('update.' + type + '.reply_text("Ha! U thought so, but i won\'t allow you ;)')
 
 async def impossible(bot: Bot, update: update, type) -> None:
     #await bot.send_message(chat_id=frigi_channel_id, text="Dis Working?")
