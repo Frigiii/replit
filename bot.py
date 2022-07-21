@@ -69,6 +69,39 @@ async def main() -> NoReturn:
                 print("Oops! In Main-Function \"", format(error), "\"occurred.")
                 await bot.send_message(frigi_channel_id, text="Oops! In Main Function \"" + format(error) + "\" occurred.")
 
+async def messagehandler(bot: Bot, update: update,  type) -> None:
+    text = eval('update.' + type + '.text')         
+    x = text.split()
+    text = x[0]
+    await bot.sendMessage(frigi_channel_id, text = "Got a chat: \"%s\". From %s (@%s)" % (' '.join(x), update.effective_user.first_name, update.effective_user.username))
+    if text == "/roll":
+        await roll(bot, update, type)
+    elif text == "/update":
+        await updater(bot, update, type, update.update_id)
+    elif text == "/status":
+        await status(bot, update, type)
+    elif text == "/shell":
+        await shell(bot, update, type, x)
+    elif text == "/help":
+        await help_command(bot, update, type)
+    elif text == "/time":
+        await teletime(bot, update, type)
+    elif text == "/hello":
+        await hello(bot, update, type)    
+    elif text == "/myinfo":
+        await myinfo(bot, update, type)
+    elif text == "/impossible":
+        await impossible(bot, update, type)
+    elif text == "/rebootpi":
+        await rebootpi(bot, update, type, update.update_id)
+    elif text[0] == '/':
+        await eval('update.' + type + '.reply_text("You want more functions? Just send your suggestion to @frigiii")')
+        await bot.send_message(frigi_channel_id, text = "Oy look at this: %s (@%s) Just typed %s." % (update.effective_user.first_name, update.effective_user.username, text))
+    else:
+        logger.info("A lonely message occured: %s!", update.message.text)
+        await eval('update.' + type + '.reply_text("Isn\'t it nice to have someone, who always writes you back? But maybe it should be someone else than me (I\'m only a bot)")')
+    return
+
 async def echo(bot: Bot, update_id: int) -> int:
     # Request updates after the last update_id
     updates = await bot.get_updates(offset=update_id, timeout=10)
@@ -80,43 +113,14 @@ async def echo(bot: Bot, update_id: int) -> int:
             # Reply to the message
             type = 'message'
             try:
-                text = update.message.text            
-                x = text.split()
-                text = x[0]
-                await bot.sendMessage(frigi_channel_id, text = "Got a chat: \"%s\". From %s (@%s)" % (' '.join(x), update.effective_user.first_name, update.effective_user.username))
-                if text == "/roll":
-                    await roll(bot, update, type)
-                elif text == "/update":
-                    await updater(bot, update, update.update_id)
-                elif text == "/status":
-                    await status(bot, update)
-                elif text == "/shell":
-                    await shell(bot, update, x)
-                elif text == "/help":
-                    await help_command(bot, update)
-                elif text == "/time":
-                    await teletime(bot, update)
-                elif text == "/hello":
-                    await hello(bot, update)    
-                elif text == "/myinfo":
-                    await myinfo(bot, update)
-                elif text == "/impossible":
-                    await impossible(bot, update)
-                elif text == "/rebootpi":
-                    await rebootpi(bot, update, update.update_id)
-                elif text[0] == '/':
-                    await update.message.reply_text("You want more functions? Just send your suggestion to @frigiii")
-                    await bot.send_message(frigi_channel_id, text = "Oy look at this: %s (@%s) Just typed %s." % (update.effective_user.first_name, update.effective_user.username, text))
-                else:
-                    logger.info("A lonely message occured: %s!", update.message.text)
-                    await update.message.reply_text("Isn't it nice to have someone, who always writes you back? But maybe it should be someone else than me (I'm only a bot)")
+                messagehandler(bot, update, type)
             except BaseException as error:
                 print("Oops! In Echo-Function \"", format(error), "\" occurred.")
                 await bot.send_message(frigi_channel_id, text="Oops! In Echo Function \"" + format(error) + "\" occurred.")
         elif update.channel_post and update.channel_post.text:
             type = 'channel_post'
             try:
-                await roll(bot, update, type)
+                messagehandler(bot, update, type)
             except BaseException as error:
                 print("Oops! In Echo-Function \"", format(error), "\" occurred.")
                 await bot.send_message(frigi_channel_id, text="Oops! In Echo Function \"" + format(error) + "\" occurred.")
@@ -128,14 +132,14 @@ async def roll(bot: Bot, update: update, type) -> None:
     await eval('update.' + type + '.reply_text(random.randint(1,6))')
     #await update(type).reply_text(random.randint(1,6))
 
-async def help_command(bot: Bot, update: update) -> None:
+async def help_command(bot: Bot, update: update, type) -> None:
     """Send a message when the command /help is issued."""
-    await update.message.reply_text("Help mee!")
+    await eval('update.' + type + '.reply_text("Help mee!")')
 
-async def teletime(bot: Bot, update: update) -> None:
-    await update.message.reply_text(time.strftime("%a, %d.%m.%y, %H:%M:%S", time.localtime()))
+async def teletime(bot: Bot, update: update, type) -> None:
+    await eval('update.' + type + '.reply_text(time.strftime("%a, %d.%m.%y, %H:%M:%S", time.localtime()))')
 
-async def hello(bot: Bot, update: update) -> None:
+async def hello(bot: Bot, update: update, type) -> None:
     first_name = update.effective_user.first_name
 
     options = [
@@ -152,25 +156,25 @@ async def hello(bot: Bot, update: update) -> None:
         "Hi " + first_name + "!",
         "It's %s o'clock and this is all u got for me? Shame on you %s!" % (time.strftime("%H",time.localtime()), first_name),
     ]
-    await update.message.reply_text(options[random.randint(0,len(options)-1)])
+    await eval('update.' + type + '.reply_text(options[random.randint(0,len(options)-1)])')
 
-async def myinfo(bot: Bot, update: update) -> None:
-    await update.message.reply_text(random.randint(1,6))
+async def myinfo(bot: Bot, update: update, type) -> None:
+    await eval('update.' + type + '.reply_text(random.randint(1,6))')
 
-async def updater(bot: Bot, update: update, update_id) -> None:
+async def updater(bot: Bot, update: update, type, update_id) -> None:
     if(update.effective_user.username) == "Frigiii":
-        await update.message.reply_text("Gimme a second.")
+        await eval('update.' + type + '.reply_text("Gimme a second.")')
         try:
             (await bot.get_updates(offset=update_id + 1, timeout=1))[0].update_id #skip current update id
         except IndexError:
             None
         subprocess.call('git -C /home/frigi/raspberrypi4 pull ' + GIT_URL, shell=True)
         subprocess.call('sudo systemctl restart bot', shell=True)
-        await update.message.reply_text("Done.")
+        await eval('update.' + type + '.reply_text("Done.")')
     else:
-        await update.message.reply_text("Sry, but i can't do this for u ;(")
+        await eval('update.' + type + '.reply_text("Sry, but i can\'t do this for u ;(")')
 
-async def shell(bot: Bot, update: update, x) -> None:
+async def shell(bot: Bot, update: update, type, x) -> None:
     cont = True
     for i in x:
         if i in ['restart','stop']:
@@ -178,9 +182,9 @@ async def shell(bot: Bot, update: update, x) -> None:
     if(update.effective_user.username) == "Frigiii" and cont:
         x.pop(0)
         if len(x):
-            await update.message.reply_text("There we go:")
+            await eval('update.' + type + '.reply_text("There we go:")')
             response = str(subprocess.check_output(' '.join(x), shell=True))
-            await update.message.reply_text("Got a response:")
+            await eval('update.' + type + '.reply_text("Got a response:")')
             text = list(response)
             i = 0
             while i < len(text):
@@ -208,13 +212,13 @@ async def shell(bot: Bot, update: update, x) -> None:
             text.append(response)
             for i in text:
                 print(i)
-                await update.message.reply_text(format(i))
+                await eval('update.' + type + '.reply_text(format(i))')
         else:
-            await update.message.reply_text("At least tell me what to do!")
+            await eval('update.' + type + '.reply_text("At least tell me what to do!")')
     else:
-        await update.message.reply_text("Why u even trying?")
+        await eval('update.' + type + '.reply_text("Why u even trying?")')
 
-async def status(bot: Bot, update: update) -> None:
+async def status(bot: Bot, update: update, type) -> None:
     if(update.effective_user.username) == "Frigiii":
         response = str(subprocess.check_output('sudo systemctl status bot', shell=True))
         text = list(response)
@@ -240,26 +244,26 @@ async def status(bot: Bot, update: update) -> None:
         response = "".join(text)
         await update.message.reply_html(response)
     else:
-        await update.message.reply_text("Sry, got no Infos for you.")
+        await eval('update.' + type + '.reply_text("Sry, got no Infos for you.")')
 
-async def rebootpi(bot: Bot, update: update, update_id) -> None:
+async def rebootpi(bot: Bot, update: update, type, update_id) -> None:
     if(update.effective_user.username) == "Frigiii":
-        await update.message.reply_text("Ok, cya.")
+        await eval('update.' + type + '.reply_text("Ok, cya.")')
         try:
             (await bot.get_updates(offset=update_id + 1, timeout=1))[0].update_id #skip current update id
         except IndexError:
             None
         subprocess.Popen("sudo reboot", shell=True)
     else:
-        await update.message.reply_text("Ha! U thought so, but i won't allow you ;)")
+        await eval('update.' + type + '.reply_text("Ha! U thought so, but i won't allow you ;)")
 
-async def impossible(bot: Bot, update: update) -> None:
+async def impossible(bot: Bot, update: update, type) -> None:
     #await bot.send_message(chat_id=frigi_channel_id, text="Dis Working?")
     try:
-        await update.message.reply_text("Whyyyyyy")
+        await eval('update.' + type + '.reply_text("Whyyyyyy")')
         raise NameError('MyBad')
     except BaseException as error:
-        await update.message.reply_text(format(error))
+        await eval('update.' + type + '.reply_text(format(error))')
     raise NameError('AlsoMyBad')
 
 if __name__ == "__main__":
