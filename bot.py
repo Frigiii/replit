@@ -1,133 +1,98 @@
-from ctypes import sizeof
-from html import entities
-from nis import match
-from ntpath import join
-from re import X
 import time
-from turtle import update
-from unittest import skip
-from urllib import response
 from apikey import API_KEY
 from apikey import frigi_channel_id
 from apikey import frigi_chat_id
-from apikey import GIT_URL
-import subprocess
-from subprocess import call
-from subprocess import run
 import random
+import requests
 
 import asyncio
-import logging
 from typing import NoReturn
 
-from telegram import __version__ as TG_VER
+async def telegram_request(method, param) -> dict:
+    url = 'https://api.telegram.org/bot{API_KEY}/{method}'.format(API_KEY = API_KEY, method = method)
+    print('Making request to : {} {}'.format(url, param))
 
-try:
-    from telegram import __version_info__
-except ImportError:
-    __version_info__ = (0, 0, 0, 0, 0)  # type: ignore[assignment]
+    r = requests.get(url, params=param)
+    #print(r.headers['Content-Type'])
+    r_dic = r.json() 
+    if (len(r_dic['result'])):
+        print ('Response of request: {}'.format(r_dic['result']))
+        return r_dic['result']
+    else:
+        return None
 
-if __version_info__ < (20, 0, 0, "alpha", 1):
-    raise RuntimeError(
-        f"This example is not compatible with your current PTB version {TG_VER}. To view the "
-        f"{TG_VER} version of this example, "
-        f"visit https://docs.python-telegram-bot.org/en/v{TG_VER}/examples.html"
-    )
-
-from telegram import Bot
-from telegram.error import Forbidden, NetworkError
-
-logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
-)
-logger = logging.getLogger(__name__)
 
 async def main() -> NoReturn:
     """Run the bot."""
     # Here we use the `async with` syntax to properly initialize and shutdown resources.
-    async with Bot(API_KEY) as bot:
-        # get the first pending update_id, this is so we can skip over it in case
-        # we get a "Forbidden" exception.
-        try:
-            update_id = (await bot.get_updates())[0].update_id #returns only one element
-        except IndexError:
+    #async with request() as r:
+    try:
+        response = await telegram_request('getUpdates', {})
+        if(response):
+            print('Received {} new Updates'.format(len(response)))
+            update_id = (await telegram_request('getUpdates', {}))[0]['update_id']
+            print('Current update-id: {}'.format(update_id))
+        else:
+            print('Got no new Updates')
             update_id = None
+    except BaseException as error:
+        print('Error occured: {}'.format(error))
+        update_id = None
+        
 
-        logger.info("listening for new messages...")
-        await bot.send_message(frigi_channel_id, text="Startup Succesfull!")
-        while True:
-            try:
-                update_id = await echo(bot, update_id)
-            except NetworkError:
-                await asyncio.sleep(1)
-            except Forbidden:
-                # The user has removed or blocked the bot.
-                update_id += 1
-            except BaseException as error:
-                # skips the current message
-                update_id += 1
-                print("Oops! In Main-Function \"", format(error), "\"occurred.")
-                await bot.send_message(frigi_channel_id, text="Oops! In Main Function \"" + format(error) + "\" occurred.")
+    await telegram_request('sendMessage', {'chat_id' : frigi_channel_id, 'text' : 'I\'m alive!'})
 
-async def echo(bot: Bot, update_id: int) -> int:
+    while True:
+        try:
+            update_id = await echo(update_id)
+        except BaseException as error:
+            # skips the current message
+            text = "Oops! In Main Function \"" + format(error) + "\" occurred."
+            print(text)
+            await telegram_request('sendMessage', {'chat_id' : frigi_channel_id, 'text' : text})
+            update_id += 1
+            
+
+async def echo(update_id: int) -> int:
     # Request updates after the last update_id
-    updates = await bot.get_updates(offset=update_id, timeout=10)
-    for update in updates:
-        next_update_id = update.update_id + 1
-        # your bot can receive updates without messages
-        # and not all messages contain text
-        if update.message and update.message.text:
-            # Reply to the message
-            type = 'message'
-            try:
-                text = update.message.text            
-                x = text.split()
-                text = x[0]
-                await bot.sendMessage(frigi_channel_id, text = "Got a chat: \"%s\". From %s (@%s)" % (' '.join(x), update.effective_user.first_name, update.effective_user.username))
-                if text == "/roll":
-                    await roll(bot, update, type)
-                elif text == "/update":
-                    await updater(bot, update, type, update.update_id)
-                elif text == "/status":
-                    await status(bot, update, type)
-                elif text == "/shell":
-                    await shell(bot, update, type, x)
-                elif text == "/help":
-                    await help_command(bot, update, type)
-                elif text == "/time":
-                    await teletime(bot, update, type)
-                elif text == "/hello":
-                    await hello(bot, update, type)    
-                elif text == "/myinfo":
-                    await myinfo(bot, update, type)
-                elif text == "/impossible":
-                    await impossible(bot, update, type)
-                elif text == "/rebootpi":
-                    await rebootpi(bot, update, type, update.update_id)
-                elif text[0] == '/':
-                    await eval('update.' + type + '.reply_text("You want more functions? Just send your suggestion to @frigiii")')
-                    await bot.send_message(frigi_channel_id, text = "Oy look at this: %s (@%s) Just typed %s." % (update.effective_user.first_name, update.effective_user.username, text))
-                else:
-                    logger.info("A lonely message occured: %s!", update.message.text)
-                    await eval('update.' + type + '.reply_text("Isn\'t it nice to have someone, who always writes you back? But maybe it should be someone else than me (I\'m only a bot)")')
-            except BaseException as error:
-                print("Oops! In Echo-Function \"", format(error), "\" occurred.")
-                await bot.send_message(frigi_channel_id, text="Oops! In Echo Function \"" + format(error) + "\" occurred.")
-        elif update.channel_post and update.channel_post.text:
-            type = 'channel_post'
-            try:
-                await roll(bot, update, type)
-            except BaseException as error:
-                print("Oops! In Echo-Function \"", format(error), "\" occurred.")
-                await bot.send_message(frigi_channel_id, text="Oops! In Echo Function \"" + format(error) + "\" occurred.")
-        return next_update_id
+    #updates = await bot.get_updates(offset=update_id, timeout=10)
+    updates = await telegram_request('getUpdates', {'offset' : update_id, 'timeout' : 10})
+    if(updates):
+        update_id = updates[0]['update_id']        
+        for update in updates:
+            next_update_id = update['update_id'] + 1
+            # your bot can receive updates without messages
+            # and not all messages contain text
+            print('Next update-id: {}'.format(next_update_id))
+            type = list(update)[1]
+            if update[type]['text']:
+                # Reply to the message
+                try:
+                    msg = update[type]['text']   
+                    x = msg.split()
+                    msg = x[0]
+                    if type == 'message':
+                        text = "Got a chat: \"%s\". From %s (@%s)" % (update[type]['text'], update[type]['from']['first_name'], update[type]['from']['username'])
+                        await telegram_request('sendMessage', {'chat_id' : frigi_channel_id, 'text' : text})
+                    if msg == "/roll":
+                        await roll(update, type)
+                    else:
+                        text = "Isn\'t it nice to have someone, who always writes you back? But maybe it should be someone else than me (I\'m only a bot)"
+                        await telegram_request('sendMessage', {'chat_id' : update[type]['chat']['id'], 'text' : text})
+                except BaseException as error:
+                    text = "Oops! In Echo-Function \"{}\" occurred.".format(error)
+                    print(text)
+                    await telegram_request('sendMessage', {'chat_id' : frigi_channel_id, 'text' : text})
+            return next_update_id
     return update_id
 
 
-async def roll(bot: Bot, update: update, type) -> None:
-    await eval('update.' + type + '.reply_text(random.randint(1,6))')
+async def roll(update, type) -> None:
+    text = random.randint(1,6)
+    await telegram_request('sendMessage', {'chat_id' : update[type]['chat']['id'], 'text' : text})
+    #await eval('update.' + type + '.reply_text(random.randint(1,6))')
     #await update(type).reply_text(random.randint(1,6))
-
+'''
 async def help_command(bot: Bot, update: update, type) -> None:
     """Send a message when the command /help is issued."""
     await eval('update.' + type + '.reply_text("Help mee!")')
@@ -261,6 +226,8 @@ async def impossible(bot: Bot, update: update, type) -> None:
     except BaseException as error:
         await eval('update.' + type + '.reply_text(format(error))')
     raise NameError('AlsoMyBad')
+'''
+
 
 if __name__ == "__main__":
     try:
