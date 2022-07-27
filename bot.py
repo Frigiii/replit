@@ -9,7 +9,7 @@ import telegram
 
 
 async def main() -> NoReturn:
-    """Run the bot."""
+    """Run thee bot."""
     # Here we use the `async with` syntax to properly initialize and shutdown resources.
     #async with request() as r:
     try:
