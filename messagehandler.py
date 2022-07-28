@@ -70,57 +70,76 @@ async def integrator(update, type) -> None:
         return (f1 + 4*f3 + f2)/6*(b-a)
     
 
-    def adaptint(a,b,edes,f) -> float:
+    def adaptint(a,b,edes,f) -> list:
         global counter
         counter += 1
+        if counter > s_max:
+            return None
         i1 = simpson(f,a,b)
         m = (a+b)/2
         i2 = simpson(f,a,m) + simpson(f,m,b)
         e = abs(i2-i1)/15
         print("Step: {}, Value: {}, accuracy: {}".format(counter,i2,e))
         if e > edes:
-            return adaptint(a,m,edes/2,f) + adaptint(m,b,edes/2,f)
+            r1 = adaptint(a,m,edes/2,f)
+            r2 = adaptint(m,b,edes/2,f)
+            if r1 and r2:
+                return [r1[0] + r2[0], r1[1] + r2[1]]
+            else:
+                return None
         else:
-            return i2
+            return [i2,e]
 
-    a = 0
-    b = 10
-    f = "x"
-    e = 1e-6
-    s_max = 1e100
+    a = None
+    b = None
+    f = None
+    e = 1e-3
+    s_max = int(1e2)
     all_values = {
+        'a' : a,
         'f(x)' : f,
-        'a': a,
-        'b': b,
+        'b' : b,
         'e' : e,
-        'smax' : s_max,
+        'smax': s_max,
     }
     msg = update[type]['text'].split()
     msg.pop(0)
     given = {}
     while len(msg):
         if msg[0] in all_values:
-            all_values[msg[0]] = format(msg[2])
-            print('found {} = {}'.format(msg[0], all_values[msg[0]]))
+            var = msg[0]
+            if var == 'a':
+                if not msg[2] == '-':
+                    a = float(msg[2])
+                else:
+                    a = float(msg[2]+msg[3])
+            elif var == 'b':
+                if not msg[2] == '-':
+                    b = float(msg[2])
+                else:
+                    b = float(msg[2]+msg[3])
+            elif var == 'f(x)':
+                f = str(msg[2])
+            elif var == 'e':
+                e = float(msg[2])
+            elif var == 'smax':
+                s_max = int(float(msg[2]))
         msg.pop(0)
-    a = float(all_values['a'])
-    b = float(all_values['b'])
-    f = all_values['f(x)']
-    e = float(all_values['e'])
-    s_max = int(all_values['smax'])
 
     print(a,b,f,e,s_max)
-
     
-    # if not (a and b and f):
-    #     text = "Integration not correctly initialized. Please enter in following form: f(x) = your_function, a = starting_val, b = end_val."
-    #     await telegram.request('sendMessage', {'chat_id' : update[type]['chat']['id'], 'text' : text})
+    if not (a - b and f):
+        text = "Integration not correctly initialized. Please enter in following form: \nf(x) = your_function, a = starting_val, b = end_val. \nAlternative Values:\ne = max_error, smax = max_steps"
+        await telegram.request('sendMessage', {'chat_id' : update[type]['chat']['id'], 'text' : text})
+        return
+    
     global counter
     counter = 0
     text = adaptint(a,b,e,f)
-    #text = simpson(f,a,b)
-    #print(text)
-    text = "Got the result : {}".format(text)
+    if text:
+        text = "Result : {}\nEstimated error : {}\nSteps taken : {}".format(text[0], text[1], counter)
+    else:
+        text = "Wasn't able to integrate function in {} steps".format(s_max)
     await telegram.request('sendMessage', {'chat_id' : update[type]['chat']['id'], 'text' : text})
 
 
