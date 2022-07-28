@@ -1,5 +1,6 @@
 from itertools import count
 from mimetypes import init
+from sqlite3 import Timestamp
 import time
 from apikey import frigi_channel_id
 from apikey import frigi_chat_id
@@ -73,20 +74,18 @@ async def integrator(update, type) -> None:
     def adaptint(a,b,edes,f) -> list:
         global counter
         counter += 1
-        if counter > s_max:
-            return None
         i1 = simpson(f,a,b)
         m = (a+b)/2
         i2 = simpson(f,a,m) + simpson(f,m,b)
         e = abs(i2-i1)/15
-        print("Step: {}, Value: {}, accuracy: {}".format(counter,i2,e))
+        #print("Step: {}, Value: {}, relative error: {}%".format(counter,i2, e/edes*100))
+        if counter > s_max:
+              print("Max_steps reached.")
+              return [i2,e]
         if e > edes:
             r1 = adaptint(a,m,edes/2,f)
             r2 = adaptint(m,b,edes/2,f)
-            if r1 and r2:
-                return [r1[0] + r2[0], r1[1] + r2[1]]
-            else:
-                return None
+            return [r1[0] + r2[0], r1[1] + r2[1]]
         else:
             return [i2,e]
 
@@ -94,7 +93,7 @@ async def integrator(update, type) -> None:
     b = None
     f = None
     e = 1e-3
-    s_max = int(1e2)
+    s_max = int(1e3)
     all_values = {
         'a' : a,
         'f(x)' : f,
@@ -135,11 +134,12 @@ async def integrator(update, type) -> None:
     
     global counter
     counter = 0
+    timestamp = time.time()
     text = adaptint(a,b,e,f)
-    if text:
-        text = "Result : {}\nEstimated error : {}\nSteps taken : {}".format(text[0], text[1], counter)
-    else:
-        text = "Wasn't able to integrate function in {} steps".format(s_max)
+    timestamp = int(round((time.time() - timestamp)*1000000)) 
+    text = "Result : {}\nEstimated error : {}\nSteps taken : {}\nTime needed : {}s, {}ms, {}ns".format(text[0], text[1], counter, timestamp // 1000000, (timestamp % 1000000) // 1000, timestamp % 1000)
+    if counter > s_max:
+         text = "Reached steps-limit!\n" + text
     await telegram.request('sendMessage', {'chat_id' : update[type]['chat']['id'], 'text' : text})
 
 
