@@ -71,7 +71,7 @@ async def integrator(update, type) -> None:
         return (f1 + 4*f3 + f2)/6*(b-a)
     
 
-    def adaptint(a,b,edes,f) -> list:
+    def adaptint(a,b,edes,f, timestamp) -> list:
         global counter
         counter += 1
         i1 = simpson(f,a,b)
@@ -79,12 +79,15 @@ async def integrator(update, type) -> None:
         i2 = simpson(f,a,m) + simpson(f,m,b)
         e = abs(i2-i1)/15
         #print("Step: {}, Value: {}, relative error: {}%".format(counter,i2, e/edes*100))
-        if counter > s_max:
-              print("Max_steps reached.")
-              return [i2,e]
+        if counter > s_max or time.time() > timestamp:
+            if counter > s_max:
+                print("Max_steps reached.")
+            else:
+                print("Time exceeded.")
+            return [i2,e]
         if e > edes:
-            r1 = adaptint(a,m,edes/2,f)
-            r2 = adaptint(m,b,edes/2,f)
+            r1 = adaptint(a,m,edes/2,f,timestamp)
+            r2 = adaptint(m,b,edes/2,f,timestamp)
             return [r1[0] + r2[0], r1[1] + r2[1]]
         else:
             return [i2,e]
@@ -94,12 +97,14 @@ async def integrator(update, type) -> None:
     f = None
     e = 1e-3
     s_max = int(1e3)
+    t_max = int(5)
     all_values = {
         'a' : a,
         'f(x)' : f,
         'b' : b,
         'e' : e,
         'smax': s_max,
+        't' : t_max,
     }
     msg = update[type]['text'].split()
     msg.pop(0)
@@ -123,6 +128,8 @@ async def integrator(update, type) -> None:
                 e = float(msg[2])
             elif var == 'smax':
                 s_max = int(float(msg[2]))
+            elif var == 't':
+                t_max = int(float(msg[2]))
         msg.pop(0)
     
     if not (a - b and f):
@@ -133,11 +140,13 @@ async def integrator(update, type) -> None:
     global counter
     counter = 0
     timestamp = time.time()
-    text = adaptint(a,b,e,f)
-    timestamp = int(round((time.time() - timestamp)*1000000)) 
-    text = "Result : {}\nEstimated error : {}\nSteps taken : {}\nTime needed : {}s, {}ms, {}ns".format(text[0], text[1], counter, timestamp // 1000000, (timestamp % 1000000) // 1000, timestamp % 1000)
+    text = adaptint(a,b,e,f,timestamp + t_max)
+    timestamp = time.time() - timestamp
+    text = "Result : {}\nEstimated error : {}\nSteps taken : {}\nTime needed : {}s, {}ms, {}ns".format(text[0], text[1], counter, int(timestamp) , int(timestamp * 1000) % 1000 , int(timestamp * 1000000) % 1000)
     if counter > s_max:
-         text = "Reached steps-limit!\n" + text
+        text = "Reached steps-limit!\n" + text
+    if timestamp > t_max:
+        text = "Time exceeded!\n" + text
     await telegram.request('sendMessage', {'chat_id' : update[type]['chat']['id'], 'text' : text})
 
 
