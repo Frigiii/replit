@@ -46,7 +46,7 @@ async def hello(update, type) -> None:
     await telegram.request('sendMessage', {'chat_id' : update[type]['chat']['id'], 'text' : text})
 
 async def myinfo(update, type) -> None:
-    text = time.strftime("%a, %d.%m.%y, %H:%M:%S", time.localtime())
+    text = format(update)
     await telegram.request('sendMessage', {'chat_id' : update[type]['chat']['id'], 'text' : text})
 
 async def updater(update, type) -> None:
@@ -89,8 +89,8 @@ async def integrator(update, type) -> None:
         else:
             return [i2,e]
 
-    a = None
-    b = None
+    a = 0
+    b = 0
     f = None
     e = 1e-3
     s_max = int(1e3)
@@ -124,11 +124,9 @@ async def integrator(update, type) -> None:
             elif var == 'smax':
                 s_max = int(float(msg[2]))
         msg.pop(0)
-
-    print(a,b,f,e,s_max)
     
     if not (a - b and f):
-        text = "Integration not correctly initialized. Please enter in following form: \nf(x) = your_function, a = starting_val, b = end_val. \nAlternative Values:\ne = max_error, smax = max_steps"
+        text = "Integration not correctly initialized. Please enter in following form: \nf(x) = your_function, a = start_val, b = end_val. \nAlternative Values:\ne = max_error, smax = max_steps"
         await telegram.request('sendMessage', {'chat_id' : update[type]['chat']['id'], 'text' : text})
         return
     
